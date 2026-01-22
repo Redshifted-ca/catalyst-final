@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  /* --- Animations --- */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-tumble: tumble 15s linear infinite;
+  
+  /* UPDATED: Smooth infinite color rotation */
+  --animate-color-cycle: hue-cycle 10s linear infinite; 
+  
+  /* UPDATED: Flow speed */
+  --animate-gradient-flow: gradient-x 3s linear infinite;
+
+  /* --- Keyframes --- */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes tumble {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* UPDATED: Full 360 rotation removes the 'bounce' effect */
+  @keyframes hue-cycle {
+    0% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(360deg); }
+    100% { filter: hue-rotate(0deg); }
+  }
+
+  @keyframes gradient-x {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+}
+
+@layer utilities {
+  .animate-gradient-flow {
+    background-size: 200% auto;
+  }
+}
