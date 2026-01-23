@@ -422,7 +422,7 @@ const HighlightsSection: React.FC = () => {
       icon: <Zap className="w-8 h-8 text-cyan-400 fill-cyan-400" />,
       title: "Design Your Project",
       description: "Let your imagination run wild. Prototype the ideas you've never thought possible.",
-      image: "https://images.unsplash.com/photo-1614726365723-49cfae967a62?q=80&w=1000&auto=format&fit=crop", // Schematic/Tech image
+      image: "/about1.png", // Schematic/Tech image
       caption: "Learn. Design. Make. Repeat. Eat. Repeat.",
       color: "cyan"
     },
@@ -430,7 +430,7 @@ const HighlightsSection: React.FC = () => {
       icon: <Box className="w-8 h-8 text-purple-400 fill-purple-400" />,
       title: "Build It IRL",
       description: "Build something for the 1st time or 50th time. Use parts you've never tried before.",
-      image: "/about3.png", // 3D Printer/Building
+      image: "/about2.png", // 3D Printer/Building
       caption: "Teenagers building @ Scrapyard Ottawa 2025, an event our team has helped organise.",
       color: "purple"
     },
@@ -439,7 +439,7 @@ const HighlightsSection: React.FC = () => {
       title: "Have fun!",
       description: "Top teams get amazing prizes, but everyone leaves with new skills, friends, and memories.",
       image: "/about3.png", // People/Hackathon
-      caption: "Teenagers demoing @ Scrapyard 2025, an event our team has helped organise.",
+      caption: "Group photo @ Lockdown Ottawa 2025, another successful event we've helped organise.",
       color: "orange"
     }
   ];
