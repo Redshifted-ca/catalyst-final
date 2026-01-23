@@ -237,6 +237,7 @@ const Hero: React.FC = () => {
                className="h-8 md:h-12 w-auto opacity-90 group-hover:opacity-100 group-hover:brightness-125 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300"
              />
           </a>
+          <p className="text-slate-500 text-sm mt-2 italic">In collaboration with<br></br><p className="text-slate-50">uOttawa Engineering Outreach</p></p>
         </div>
 
         {/* Description Text */}
@@ -245,12 +246,12 @@ const Hero: React.FC = () => {
         </p>
 
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full sm:w-auto mb-16">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full sm:w-auto mb-8">
           <a href="http://tiny.cc/catalyst-hack" className="w-full sm:w-auto">
             <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-20 group-hover:opacity-40 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
-                Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+          Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
               </span>
             </button>
           </a>
@@ -263,9 +264,9 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Logistics (Date & Location) */}
-        <div className="w-full border-t border-white/10 pt-8 flex justify-center">
+        <div className="w-full border-t border-white/10 pt-2 flex justify-center">
           <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 text-sm font-medium">
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5">
+            <div className="flex items-center gap-3 px-4 py-1/10 rounded-full bg-white/5 border border-white/5">
               <Calendar className="w-4 h-4 text-cyan-400" />
               <span className="text-slate-200">Saturday, March 7th, 2026</span>
             </div>
