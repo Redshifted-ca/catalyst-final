@@ -96,187 +96,281 @@ const Navbar: React.FC = () => {
 
 
 const Hero: React.FC = () => {
-  // Generate random twinkling stars
-  const [stars, setStars] = useState<{ id: number; top: string; left: string; size: string; delay: string; duration: string }[]>([]);
+  // --- CONFIGURATION FOR FLOATING ITEMS ---
+  const debrisItems = [
+    { id: 1, src: "https://cdn-icons-png.flaticon.com/512/2560/2560576.png", size: "w-16" }, // Laptop
+    { id: 2, src: "https://cdn-icons-png.flaticon.com/512/1046/1046775.png", size: "w-12" }, // Mouse
+    { id: 3, src: "https://cdn-icons-png.flaticon.com/512/428/428001.png", size: "w-20" }, // Rocket
+    { id: 4, src: "https://cdn-icons-png.flaticon.com/512/2165/2165212.png", size: "w-10" }, // Chip
+    { id: 5, src: "https://cdn-icons-png.flaticon.com/512/2906/2906274.png", size: "w-14" }, // Coffee
+    { id: 6, src: "https://cdn-icons-png.flaticon.com/512/644/644667.png", size: "w-12" }, // Planet
+  ];
+
+  const [items, setItems] = useState<any[]>([]);
 
   useEffect(() => {
-    const newStars = Array.from({ length: 80 }, (_, i) => ({
-      id: i,
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      size: `${1 + Math.random() * 3}px`,
-      delay: `${Math.random() * 5}s`,
-      duration: `${2 + Math.random() * 3}s`,
-    }));
-    setStars(newStars);
+    // Distribute items evenly across the vertical axis
+    const totalSpan = 80; // Use middle 80% of screen
+    const segmentSize = totalSpan / debrisItems.length;
+
+    const randomized = debrisItems.map((item, index) => {
+      const basePos = 10 + (index * segmentSize); 
+      const noise = Math.random() * (segmentSize * 0.8);
+      
+      return {
+        ...item,
+        startY: basePos + noise, 
+        delay: Math.random() * 5,
+        duration: 6 + Math.random() * 3
+      };
+    });
+    
+    setItems(randomized.sort(() => Math.random() - 0.5));
   }, []);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 pt-20">
       
-      {/* --- CUSTOM CSS --- */}
+      {/* --- CSS PHYSICS ENGINE & VISUALS --- */}
       <style>{`
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.3; transform: scale(0.8); }
-          50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 5px white; }
+        /* 1. Texture Spin */
+        @keyframes texture-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
-        .star-twinkle {
+
+        /* 2. Debris Convergence Physics */
+        @keyframes converge {
+          0% {
+            left: -150px;
+            top: var(--start-y);
+            transform: scale(1) rotate(0deg);
+            opacity: 0;
+          }
+          10% { opacity: 1; }
+          
+          /* The Gravity Turn */
+          60% {
+             left: 60%; 
+             top: var(--start-y);
+             transform: scale(0.8) rotate(180deg);
+          }
+
+          /* The Singularity */
+          100% {
+            left: 80%; /* Target Black Hole Center X */
+            top: 50%;  /* Target Black Hole Center Y */
+            transform: scale(0) rotate(720deg);
+            opacity: 0;
+          }
+        }
+
+        .debris-item {
           position: absolute;
-          background-color: white;
-          border-radius: 50%;
-          animation-name: twinkle;
+          animation-name: converge;
+          animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
           animation-iteration-count: infinite;
-          animation-timing-function: ease-in-out;
         }
-        /* Cycle the tail brightness to simulate burning gas */
-        @keyframes burn {
-          0%, 100% { opacity: 0.8; filter: brightness(1); }
-          50% { opacity: 1; filter: brightness(1.2); }
+
+        /* 3. Detailed "Gargantua" Gradient Styles */
+        .disk-gradient {
+          /* 
+             Layered Temperatures: 
+             Clear Center -> Sharp White Edge -> Yellow -> Intense Orange -> Deep Red -> Fade 
+          */
+          background: radial-gradient(circle, 
+            transparent 25%, 
+            rgba(255,255,255,1) 28%, 
+            rgba(255,230,150,1) 32%, 
+            rgba(255,140,0,1) 45%, 
+            rgba(180,20,0,0.95) 60%,
+            transparent 72%
+          );
+        }
+        
+        .disk-texture {
+          /* High-frequency noise pattern for gas streams */
+          background: repeating-conic-gradient(
+            from 0deg, 
+            rgba(0,0,0,0.4) 0deg, 
+            transparent 1deg, 
+            transparent 3deg,
+            rgba(0,0,0,0.4) 4deg
+          );
+          filter: contrast(1.5); /* Enhance the definition of the streaks */
+        }
+
+        /* 4. The Thick Photon Sphere Glow */
+        @keyframes horizon-pulse {
+           0%, 100% {
+             box-shadow: 
+               inset 0 0 60px #000000,          /* Deep Inner Void */
+               0 0 10px 4px #ffffff,            /* Thick Solid White Rim */
+               0 0 30px 10px rgba(255,200,50,0.8), /* Golden Transition */
+               0 0 70px 30px rgba(255, 100, 0, 0.6); /* Outer Orange Haze */
+           }
+           50% {
+             box-shadow: 
+               inset 0 0 70px #000000,
+               0 0 12px 5px #ffffff,           /* Pulse thicker */
+               0 0 40px 15px rgba(255,200,50,0.9),
+               0 0 90px 40px rgba(255, 100, 0, 0.8);
+           }
         }
       `}</style>
 
+
+      
       {/* --- BACKGROUND LAYER --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black"></div>
-        <div className="absolute inset-0 opacity-20 mix-blend-screen" style={{ backgroundImage: 'radial-gradient(white 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
-        
+        {/* Deep Orange/Black Space */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-950/20 via-slate-950 to-black"></div>
         {/* Stars */}
-        <div className="absolute inset-0">
-          {stars.map((star) => (
-            <div 
-              key={star.id}
-              className="star-twinkle"
-              style={{
-                top: star.top,
-                left: star.left,
-                width: star.size,
-                height: star.size,
-                animationDelay: star.delay,
-                animationDuration: star.duration
-              }}
-            />
-          ))}
-        </div>
+        <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'radial-gradient(white 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
+      </div>
 
-        {/* --- THE COMET CONTAINER --- */}
-        {/* Positioned slightly off-center to look dynamic */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] flex items-center justify-center">
-          
-          {/* 1. THE TAIL (Ion/Dust Trail) */}
-          {/* Rotated to point up-left, creating the effect of falling down-right */}
-          <div className="absolute top-1/2 left-1/2 w-[800px] h-[300px] -translate-y-1/2 -translate-x-[10%] origin-left rotate-[-135deg] pointer-events-none">
-            
-            {/* Core Tail (Bright Blue/White) */}
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-200 via-blue-500 to-transparent blur-2xl opacity-80 animate-flow rounded-[100%]"></div>
-            
-            {/* Outer Glow (Purple/Cyan) */}
-            <div className="absolute -inset-10 bg-gradient-to-r from-white via-purple-500 to-transparent blur-[60px] opacity-40 animate-flow-delayed rounded-[100%]"></div>
-            
-            {/* Speed Lines / Particles effect */}
-            <div className="absolute top-1/2 left-0 w-full h-2 bg-white blur-md opacity-60"></div>
-            <div className="absolute top-[40%] left-10 w-[80%] h-1 bg-cyan-300 blur-sm opacity-50"></div>
-            <div className="absolute top-[60%] left-10 w-[80%] h-1 bg-purple-300 blur-sm opacity-50"></div>
-          </div>
+      {/* --- FLOATING DEBRIS LAYER --- */}
+      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+        {items.map((item, index) => (
+          <img
+            key={index}
+            src={item.src}
+            alt="debris"
+            className={`debris-item object-contain ${item.size} drop-shadow-[0_0_10px_rgba(255,165,0,0.5)]`}
+            style={{
+              // @ts-ignore
+              '--start-y': `${item.startY}%`, 
+              animationDelay: `${item.delay}s`,
+              animationDuration: `${item.duration}s`,
+            }}
+          />
+        ))}
+      </div>
 
-          {/* 2. THE NUCLEUS (Spinning Rock) */}
-          <div className="relative z-10 w-64 h-64 animate-tumble">
-            {/* The Rock Shape - Irregular Border Radius for 'Asteroid' look */}
-            <div className="w-full h-full bg-slate-800 rounded-[55%_45%_39%_61%_/_60%_54%_46%_40%] shadow-[inset_-20px_-20px_50px_rgba(0,0,0,0.8),inset_10px_10px_30px_rgba(255,255,255,0.1)] overflow-hidden relative border-4 border-slate-700/50">
-              
-              {/* Surface Texture (Gradients) */}
-              <div className="absolute inset-0 bg-[conic-gradient(from_90deg_at_50%_50%,_var(--tw-gradient-stops))] from-slate-800 via-slate-700 to-slate-900 opacity-80"></div>
-              
-              {/* Craters (Absolute positioned circles rotating with the rock) */}
-              <div className="absolute top-[20%] left-[30%] w-12 h-10 bg-slate-900/60 rounded-full shadow-[inset_2px_2px_5px_rgba(0,0,0,0.8)] blur-[1px]"></div>
-              <div className="absolute top-[60%] left-[60%] w-16 h-14 bg-slate-900/60 rounded-full shadow-[inset_3px_3px_6px_rgba(0,0,0,0.8)] blur-[1px]"></div>
-              <div className="absolute top-[70%] left-[20%] w-8 h-8 bg-slate-900/50 rounded-full shadow-[inset_1px_1px_3px_rgba(0,0,0,0.8)]"></div>
-              
+      {/* --- GARGANTUA BLACK HOLE (Center Right) --- */}
+      <div className="absolute top-1/2 right-[-20%] md:right-[-10%] -translate-y-1/2 w-[1000px] h-[1000px] flex items-center justify-center z-0 pointer-events-none scale-[0.6] md:scale-110">
+        
+        {/* TILT CONTAINER: Rotate -25deg to match the movie poster angle */}
+        <div className="relative w-full h-full rotate-[-25deg]">
+
+            {/* 1. GRAVITATIONAL LENSING (TOP ARCH) 
+               The light bending over the top of the hole 
+            */}
+            <div className="absolute top-[22%] left-1/2 -translate-x-1/2 w-[550px] h-[400px] bg-orange-600/20 rounded-t-full blur-[60px]"></div>
+            <div className="absolute top-[24%] left-1/2 -translate-x-1/2 w-[460px] h-[300px] rounded-t-full border-t-[50px] border-orange-200/50 blur-xl mix-blend-screen opacity-90"></div>
+            
+            {/* 2. ACCRETION DISK (BACK) 
+               The ring passing *behind* the sphere
+            */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px]">
+                 <div className="w-full h-full rounded-full transform scale-y-[0.14] scale-x-100 relative">
+                    <div className="absolute inset-0 rounded-full disk-gradient blur-[4px] opacity-90"></div>
+                    <div className="absolute inset-0 rounded-full disk-texture opacity-70 animate-[texture-spin_30s_linear_infinite]"></div>
+                 </div>
             </div>
 
-            {/* Front Atmosphere Glow (Where the comet hits the 'air') */}
-            <div className="absolute -inset-4 rounded-full blur-xl mix-blend-screen pointer-events-none"></div>
-          </div>
+            {/* 3. THE EVENT HORIZON (Black Sphere) */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-black rounded-full z-20 animate-[horizon-pulse_4s_ease-in-out_infinite]">
+                {/* Note: The 'glow' is handled by the box-shadow keyframes above for maximum thickness */}
+                {/* Inner Void */}
+                <div className="absolute inset-0 rounded-full bg-black"></div>
+            </div>
+
+            {/* 4. ACCRETION DISK (FRONT) 
+               The ring passing *in front* of the sphere. 
+               We mask the top half so it looks like it crosses over.
+            */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] z-30">
+                 <div className="w-full h-full rounded-full transform scale-y-[0.14] scale-x-100 relative">
+                     {/* GLOWING CORE */}
+                     <div className="absolute inset-0 rounded-full disk-gradient mix-blend-screen blur-[2px] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+                     {/* TEXTURE */}
+                     <div className="absolute inset-0 rounded-full disk-texture opacity-90 animate-[texture-spin_30s_linear_infinite] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+                 </div>
+            </div>
+
+            {/* 5. GRAVITATIONAL LENSING (BOTTOM ARCH) 
+               Light bending under the hole
+            */}
+            <div className="absolute bottom-[24%] left-1/2 -translate-x-1/2 w-[480px] h-[220px] border-b-[40px] border-orange-600/50 rounded-b-full blur-xl opacity-80"></div>
+            <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[580px] h-[280px] bg-red-900/30 rounded-b-full blur-[60px]"></div>
 
         </div>
       </div>
-      {/* --- END COMET --- */}
 
-      {/* --- CONTENT LAYER --- */}
-      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+      {/* --- UI CONTENT LAYER --- */}
+      <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center md:items-start text-center md:text-left">
         
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-cyan-500/30 mb-8 animate-float shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:border-cyan-400 transition-colors cursor-default">
+        {/* Status Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-orange-500/30 mb-8 animate-float shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:border-orange-400 transition-colors cursor-default">
           <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
           </span>
-          <span className="text-cyan-100 text-xs md:text-sm font-medium tracking-widest uppercase">Incoming Transmission</span>
+          <span className="text-orange-100 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Anomaly Detected</span>
         </div>
 
         {/* 1. CATALYST LOGO */}
-        <div className="relative group mb-6">
-           <div className="absolute -inset-10 bg-cyan-500/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+        <div className="relative group mb-8">
+           <div className="absolute -inset-10 bg-orange-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
            <img 
              src="/src/assets/catalystlogo.png" 
              alt="Catalyst Logo" 
-             className="relative z-10 w-[280px] md:w-[450px] h-auto mx-auto drop-shadow-[0_0_35px_rgba(34,211,238,0.4)]"
+             className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]"
            />
         </div>
 
         {/* 2. PRESENTED BY */}
-        <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-slate-500 mb-4">
-          Presented By
-        </p>
-
-        {/* 3. REDSHIFTED LOGO */}
-        <div className="mb-10">
+        <div className="flex flex-col items-center md:items-start gap-2 mb-8 pl-2">
+          <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-500">
+            Presented By
+          </p>
           <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
              <img 
                src="/src/assets/redshifted-logo.png" 
                alt="Redshifted Logo" 
-               className="h-8 md:h-12 w-auto opacity-90 group-hover:opacity-100 group-hover:brightness-125 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300"
+               className="h-8 md:h-12 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
              />
           </a>
-          <p className="text-slate-500 text-sm mt-2 italic">In collaboration with<br></br><p className="text-slate-50">uOttawa Engineering Outreach</p></p>
         </div>
 
         {/* Description Text */}
-        <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-300 mb-10 leading-relaxed drop-shadow-lg font-light">
-          Join us as we explore the cosmos. Start your journey here, or build something never seen before. <span className="text-white font-medium">The universe is your playground.</span>
+        <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-12 leading-relaxed drop-shadow-md font-light pl-2">
+          Join us at the event horizon. Start your journey here, or build something never seen before. <br/><span className="text-white font-medium">Gravity is no limit.</span>
         </p>
 
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full sm:w-auto mb-8">
+        <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pl-1">
           <a href="http://tiny.cc/catalyst-hack" className="w-full sm:w-auto">
-            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]">
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-20 group-hover:opacity-40 transition-opacity"></div>
+            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)]">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
-          Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+                Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
               </span>
             </button>
           </a>
           
           <a href="#faq" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/60 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/30 transition-all flex items-center justify-center gap-2">
+            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2">
               View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
             </button>
           </a>
         </div>
 
-        {/* Logistics (Date & Location) */}
-        <div className="w-full border-t border-white/10 pt-2 flex justify-center">
-          <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 text-sm font-medium">
-            <div className="flex items-center gap-3 px-4 py-1/10 rounded-full bg-white/5 border border-white/5">
-              <Calendar className="w-4 h-4 text-cyan-400" />
+        {/* Logistics */}
+        <div className="w-full md:w-auto border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-8 flex justify-center md:justify-start">
+          <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
+              <Calendar className="w-4 h-4 text-orange-400" />
               <span className="text-slate-200">Saturday, March 7th, 2026</span>
             </div>
             
             <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
                target="_blank" 
                rel="noopener noreferrer"
-               className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-cyan-500/30 transition-all group"
+               className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all group shadow-lg"
             >
-              <MapPin className="w-4 h-4 text-cyan-400 group-hover:animate-bounce" />
+              <MapPin className="w-4 h-4 text-orange-400 group-hover:animate-bounce" />
               <span className="text-slate-200 group-hover:text-white">STEM Complex, uOttawa</span>
             </a>
           </div>
@@ -286,7 +380,6 @@ const Hero: React.FC = () => {
     </div>
   );
 };
-
 const AboutSection: React.FC = () => {
   return (
     <section id="about" className="py-24 bg-slate-950 relative border-t border-white/5">
@@ -1132,6 +1225,266 @@ const Footer: React.FC = () => {
   );
 };
 
+const WhiteHoleHero: React.FC = () => {
+  // --- CONFIGURATION FOR FLOATING ITEMS ---
+  // Same items, but now they are being created/ejected
+  const debrisItems = [
+    { id: 1, src: "https://cdn-icons-png.flaticon.com/512/2560/2560576.png", size: "w-16" }, // Laptop
+    { id: 2, src: "https://cdn-icons-png.flaticon.com/512/1046/1046775.png", size: "w-12" }, // Mouse
+    { id: 3, src: "https://cdn-icons-png.flaticon.com/512/428/428001.png", size: "w-20" }, // Rocket
+    { id: 4, src: "https://cdn-icons-png.flaticon.com/512/2165/2165212.png", size: "w-10" }, // Chip
+    { id: 5, src: "https://cdn-icons-png.flaticon.com/512/2906/2906274.png", size: "w-14" }, // Coffee
+    { id: 6, src: "https://cdn-icons-png.flaticon.com/512/644/644667.png", size: "w-12" }, // Planet
+  ];
+
+  const [items, setItems] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Determine where each item lands on the Y axis
+    const totalSpan = 90; 
+    const segmentSize = totalSpan / debrisItems.length;
+
+    const randomized = debrisItems.map((item, index) => {
+      const basePos = 5 + (index * segmentSize); 
+      const noise = Math.random() * (segmentSize * 0.8);
+      
+      return {
+        ...item,
+        endY: basePos + noise, // The destination Y coordinate
+        delay: Math.random() * 4,
+        duration: 5 + Math.random() * 2
+      };
+    });
+    
+    // Shuffle
+    setItems(randomized.sort(() => Math.random() - 0.5));
+  }, []);
+
+  return (
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 pt-20">
+      
+      {/* --- CSS PHYSICS ENGINE --- */}
+      <style>{`
+        /* 1. Texture Spin (Reverse Direction for Ejection feel) */
+        @keyframes texture-spin-reverse {
+          from { transform: rotate(360deg); }
+          to { transform: rotate(0deg); }
+        }
+
+        /* 2. Ejection Physics (Center -> Outwards) */
+        @keyframes eject {
+          0% {
+            left: 20%; /* Center of White Hole X */
+            top: 50%;  /* Center of White Hole Y */
+            transform: scale(0) rotate(0deg);
+            opacity: 0;
+            filter: blur(10px) brightness(10); /* Starts as pure light */
+          }
+          10% {
+            opacity: 1;
+            filter: blur(0px) brightness(2);
+          }
+          
+          /* The "Expulsion" - Explosive force outwards */
+          100% {
+             left: 90%; 
+             top: var(--end-y); /* Land at random Y */
+             transform: scale(1) rotate(360deg);
+             opacity: 0; /* Fade out as they drift too far */
+          }
+        }
+
+        .eject-item {
+          position: absolute;
+          animation-name: eject;
+          /* Cubic-bezier for "Explosion": Fast start, slow end */
+          animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+          animation-iteration-count: infinite;
+        }
+
+        /* 3. White Hole Gradients */
+        .whitehole-gradient {
+          /* Pure Energy: White -> Cyan -> Blue -> Transparent */
+          background: radial-gradient(circle, 
+            rgba(255,255,255,1) 30%, 
+            rgba(200,240,255,1) 40%, 
+            rgba(50,200,255,0.9) 50%, 
+            rgba(0,100,255,0.5) 65%,
+            transparent 75%
+          );
+        }
+        
+        .whitehole-texture {
+          background: repeating-conic-gradient(
+            from 0deg, 
+            rgba(255,255,255,0.8) 0deg, 
+            transparent 5deg, 
+            rgba(200,240,255,0.5) 10deg,
+            transparent 15deg
+          );
+        }
+
+        /* 4. The Singularity Pulse */
+        @keyframes singularity-pulse {
+          0%, 100% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 100px rgba(0, 200, 255, 0.5); }
+          50% { box-shadow: 0 0 100px rgba(255, 255, 255, 1), 0 0 150px rgba(0, 200, 255, 0.8); }
+        }
+      `}</style>
+
+      {/* --- BACKGROUND LAYER --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Cold Space Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-blue-950/40 via-slate-950 to-black"></div>
+        {/* Stars */}
+        <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'radial-gradient(white 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
+      </div>
+
+      {/* --- FLOATING DEBRIS LAYER (EJECTED) --- */}
+      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+        {items.map((item, index) => (
+          <img
+            key={index}
+            src={item.src}
+            alt="debris"
+            className={`eject-item object-contain ${item.size} drop-shadow-[0_0_15px_rgba(200,240,255,0.8)]`}
+            style={{
+              // @ts-ignore
+              '--end-y': `${item.endY}%`, 
+              animationDelay: `${item.delay}s`,
+              animationDuration: `${item.duration}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* --- WHITE HOLE (Left Side) --- */}
+      {/* Positioned Left ~20% */}
+      <div className="absolute top-1/2 left-[-20%] md:left-[-10%] -translate-y-1/2 w-[1000px] h-[1000px] flex items-center justify-center z-0 pointer-events-none scale-[0.6] md:scale-110">
+        
+        {/* TILT: Rotated +20deg (Opposite of black hole) */}
+        <div className="relative w-full h-full rotate-[20deg]">
+
+            {/* 1. REAR LENSING (Top Arch - Blue) */}
+            <div className="absolute top-[22%] left-1/2 -translate-x-1/2 w-[500px] h-[350px] bg-blue-400/20 rounded-t-full blur-[60px]"></div>
+            <div className="absolute top-[24%] left-1/2 -translate-x-1/2 w-[420px] h-[280px] rounded-t-full border-t-[40px] border-cyan-200/80 blur-xl mix-blend-screen opacity-90"></div>
+            
+            {/* 2. ACCRETION DISK (BACK) */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px]">
+                 <div className="w-full h-full rounded-full transform scale-y-[0.12] scale-x-100 relative">
+                    <div className="absolute inset-0 rounded-full whitehole-gradient blur-[6px] opacity-80"></div>
+                    {/* Reverse spin for expulsion look */}
+                    <div className="absolute inset-0 rounded-full whitehole-texture opacity-60 animate-[texture-spin-reverse_30s_linear_infinite]"></div>
+                 </div>
+            </div>
+
+            {/* 3. THE SINGULARITY (White Sphere) */}
+            {/* Instead of black, this is solid white/cyan */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] bg-white rounded-full z-20 animate-[singularity-pulse_3s_ease-in-out_infinite]">
+                {/* Intense Blur Glow */}
+                <div className="absolute inset-0 rounded-full bg-cyan-100 blur-xl"></div>
+            </div>
+
+            {/* 4. ACCRETION DISK (FRONT) */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] z-30">
+                 <div className="w-full h-full rounded-full transform scale-y-[0.12] scale-x-100 relative">
+                     {/* Bright Core */}
+                     <div className="absolute inset-0 rounded-full whitehole-gradient mix-blend-screen blur-[2px] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+                     {/* Texture */}
+                     <div className="absolute inset-0 rounded-full whitehole-texture opacity-90 animate-[texture-spin-reverse_30s_linear_infinite] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+                 </div>
+            </div>
+
+            {/* 5. BOTTOM LENSING */}
+            <div className="absolute bottom-[24%] left-1/2 -translate-x-1/2 w-[450px] h-[200px] border-b-[30px] border-blue-400/60 rounded-b-full blur-xl opacity-80"></div>
+            <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[550px] h-[250px] bg-cyan-900/20 rounded-b-full blur-[60px]"></div>
+
+        </div>
+      </div>
+
+      {/* --- UI CONTENT LAYER (Right Aligned) --- */}
+      {/* Aligned to the right/center-right to balance the visual weight */}
+      <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center md:items-end text-center md:text-right">
+        
+        {/* Status Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-cyan-400/50 mb-8 animate-float shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:border-white transition-colors cursor-default">
+          <span className="flex h-2 w-2 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+          </span>
+          <span className="text-cyan-50 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Event Genesis</span>
+        </div>
+
+        {/* 1. LOGO */}
+        <div className="relative group mb-8">
+           <div className="absolute -inset-10 bg-cyan-500/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+           <img 
+             src="/src/assets/catalystlogo.png" 
+             alt="Catalyst Logo" 
+             className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.4)]"
+           />
+        </div>
+
+        {/* 2. PRESENTED BY */}
+        <div className="flex flex-col items-center md:items-end gap-2 mb-8 pr-2">
+          <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-400">
+            Presented By
+          </p>
+          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
+             <img 
+               src="/src/assets/redshifted-logo.png" 
+               alt="Redshifted Logo" 
+               className="h-8 md:h-12 w-auto opacity-90 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
+             />
+          </a>
+        </div>
+
+        {/* Description Text */}
+        <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-12 leading-relaxed drop-shadow-md font-light pr-2">
+          Creation starts here. Witness the birth of new ideas and impossible technologies. <br/><span className="text-white font-medium">The output is infinite.</span>
+        </p>
+
+        {/* Buttons */}
+        <div className="flex flex-col sm:flex-row items-center md:items-end gap-5 w-full sm:w-auto mb-16 pr-1">
+          <a href="http://tiny.cc/catalyst-hack" className="w-full sm:w-auto">
+            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,255,0.5)]">
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-200 to-white opacity-40 group-hover:opacity-60 transition-opacity"></div>
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Begin Creation <Zap className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform fill-black" />
+              </span>
+            </button>
+          </a>
+          
+          <a href="#faq" className="w-full sm:w-auto">
+            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/20 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/50 transition-all flex items-center justify-center gap-2">
+              View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
+            </button>
+          </a>
+        </div>
+
+        {/* Logistics */}
+        <div className="w-full md:w-auto border-t md:border-t-0 md:border-r border-white/10 pt-8 md:pt-0 md:pr-8 flex justify-center md:justify-end">
+          <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
+              <Calendar className="w-4 h-4 text-cyan-300" />
+              <span className="text-slate-200">Saturday, March 7th, 2026</span>
+            </div>
+            
+            <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-cyan-400/50 transition-all group shadow-lg"
+            >
+              <MapPin className="w-4 h-4 text-cyan-300 group-hover:animate-bounce" />
+              <span className="text-slate-200 group-hover:text-white">STEM Complex, uOttawa</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
 function App() {
   return (
     <div className="bg-slate-950 min-h-screen selection:bg-cyan-500 selection:text-white font-sans">
@@ -1142,6 +1495,7 @@ function App() {
       <AboutSection />
       <Sponsors />
       <LogisticsSection />
+      <WhiteHoleHero />
       <Footer />
     </div>
   );
