@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Rocket, Calendar, MapPin, Menu, X, ChevronRight, Zap, Star, Box, Hammer, Trophy, Award, TrendingUp, Heart, Plus, Minus, Clock, HelpCircle, Terminal, Instagram, Mail, BookOpen, Wrench, ArrowRight, ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { Rocket, Calendar, MapPin, Menu, X, ChevronRight, Zap, Star, Box, Hammer, Trophy, Award, TrendingUp, Heart, Plus, Minus, Clock, HelpCircle, Terminal, Instagram, Mail, Cpu, Code, Wifi, Database, BookOpen, Wrench, ArrowRight, ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import * as AspectRatioModule from '@radix-ui/react-aspect-ratio';
 
 const AspectRatio = AspectRatioModule.Root;
@@ -380,6 +380,7 @@ const Hero: React.FC = () => {
     </div>
   );
 };
+
 const AboutSection: React.FC = () => {
   return (
     <section id="about" className="py-24 bg-slate-950 relative border-t border-white/5">
@@ -755,7 +756,7 @@ const LogisticsSection: React.FC = () => {
     },
     {
       question: "What does it cost?",
-      answer: "$15 solo, $10 per person if you register successfully with a friend. Swag, food, and hardware will be provided! Prizes are at the end :)"
+      answer: "Absolutely free! Swag, food, and hardware will be provided! Prizes are at the end :)"
     },
     {
       question: "Do I need a team?",
