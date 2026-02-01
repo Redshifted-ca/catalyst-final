@@ -1568,7 +1568,7 @@ const WhiteHoleHero: React.FC = () => {
 
 function App() {
   return (
-    <div className="bg-slate-950 min-h-screen selection:bg-cyan-500 selection:text-white font-sans">
+    <div className="relative bg-slate-950 min-h-screen selection:bg-cyan-500 selection:text-white font-sans overflow-x-hidden">
       <Navbar />
       <Hero />
       <HighlightsSection />
