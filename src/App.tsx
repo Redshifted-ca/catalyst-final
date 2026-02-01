@@ -7,11 +7,6 @@ interface NavItem {
   href: string;
 }
 
-interface TrackProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}
 
 // --- Components ---
 
