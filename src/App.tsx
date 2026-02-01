@@ -18,6 +18,32 @@ interface TrackProps {
 
 // --- Components ---
 
+const CryptoText: React.FC<{ pattern: string; className?: string }> = ({ pattern, className = '' }) => {
+  const [displayText, setDisplayText] = useState(pattern);
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  
+  useEffect(() => {
+    let currentIndex = 0;
+    const charPositions = pattern.split('').map((char, idx) => 
+      (char !== ' ' && char !== ',' && char !== '.' && char !== ':') ? idx : -1
+    ).filter(idx => idx !== -1);
+    
+    const interval = setInterval(() => {
+      setDisplayText(prev => {
+        const arr = prev.split('');
+        const posToChange = charPositions[currentIndex % charPositions.length];
+        arr[posToChange] = chars[Math.floor(Math.random() * chars.length)];
+        currentIndex++;
+        return arr.join('');
+      });
+    }, 80);
+    
+    return () => clearInterval(interval);
+  }, [pattern]);
+  
+  return <span className={`${className} font-mono`} style={{ letterSpacing: '0.05em' }}>{displayText}</span>;
+};
+
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -59,8 +85,8 @@ const Navbar: React.FC = () => {
                   {item.label}
                 </a>
               ))}
-              <a href="http://tiny.cc/catalyst-hack">
-              <button className="bg-white text-slate-900 hover:bg-cyan-400 hover:text-black px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105">
+              <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer">
+              <button className="bg-white text-slate-900 hover:bg-cyan-400 hover:text-black px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 cursor-pointer">
                 Register Now
               </button>
               </a>
@@ -68,7 +94,7 @@ const Navbar: React.FC = () => {
           </div>
 
           <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-cyan-400">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-cyan-400 cursor-pointer">
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
@@ -84,7 +110,7 @@ const Navbar: React.FC = () => {
                 {item.label}
               </a>
             ))}
-            <button className="w-full text-center mt-4 bg-cyan-500 text-white px-5 py-3 rounded-md font-bold">
+            <button className="w-full text-center mt-4 bg-cyan-500 text-white px-5 py-3 rounded-md font-bold cursor-pointer">
               Register Now
             </button>
           </div>
@@ -248,52 +274,52 @@ const Hero: React.FC = () => {
       </div>
 
       {/* --- GARGANTUA BLACK HOLE (Center Right) --- */}
-      <div className="absolute top-1/2 right-[-20%] md:right-[-10%] -translate-y-1/2 w-[1000px] h-[1000px] flex items-center justify-center z-0 pointer-events-none scale-[0.6] md:scale-110">
+      <div className="absolute top-1/2 right-[-40%] sm:right-[-30%] md:right-[-20%] lg:right-[-10%] -translate-y-1/2 w-[600px] sm:w-[800px] md:w-[1000px] lg:w-[1200px] h-[600px] sm:h-[800px] md:h-[1000px] lg:h-[1200px] flex items-center justify-center z-0 pointer-events-none scale-50 sm:scale-75 md:scale-100 lg:scale-110">
         
         {/* TILT CONTAINER: Rotate -25deg to match the movie poster angle */}
         <div className="relative w-full h-full rotate-[-25deg]">
 
-            {/* 1. GRAVITATIONAL LENSING (TOP ARCH) 
-               The light bending over the top of the hole 
-            */}
-            <div className="absolute top-[22%] left-1/2 -translate-x-1/2 w-[550px] h-[400px] bg-orange-600/20 rounded-t-full blur-[60px]"></div>
-            <div className="absolute top-[24%] left-1/2 -translate-x-1/2 w-[460px] h-[300px] rounded-t-full border-t-[50px] border-orange-200/50 blur-xl mix-blend-screen opacity-90"></div>
-            
-            {/* 2. ACCRETION DISK (BACK) 
-               The ring passing *behind* the sphere
-            */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px]">
-                 <div className="w-full h-full rounded-full transform scale-y-[0.14] scale-x-100 relative">
-                    <div className="absolute inset-0 rounded-full disk-gradient blur-[4px] opacity-90"></div>
-                    <div className="absolute inset-0 rounded-full disk-texture opacity-70 animate-[texture-spin_30s_linear_infinite]"></div>
-                 </div>
-            </div>
+        {/* 1. GRAVITATIONAL LENSING (TOP ARCH) 
+           The light bending over the top of the hole 
+        */}
+        <div className="absolute top-[22%] left-1/2 -translate-x-1/2 w-[280px] sm:w-[380px] md:w-[550px] h-[200px] sm:h-[280px] md:h-[400px] bg-orange-600/20 rounded-t-full blur-[30px] sm:blur-[40px] md:blur-[60px]"></div>
+        <div className="absolute top-[24%] left-1/2 -translate-x-1/2 w-[240px] sm:w-[320px] md:w-[460px] h-[150px] sm:h-[210px] md:h-[300px] rounded-t-full border-t-[25px] sm:border-t-[35px] md:border-t-[50px] border-orange-200/50 blur-xl mix-blend-screen opacity-90"></div>
+        
+        {/* 2. ACCRETION DISK (BACK) 
+           The ring passing *behind* the sphere
+        */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] sm:w-[630px] md:w-[900px] h-[450px] sm:h-[630px] md:h-[900px]">
+             <div className="w-full h-full rounded-full transform scale-y-[0.14] scale-x-100 relative">
+            <div className="absolute inset-0 rounded-full disk-gradient blur-[2px] sm:blur-[3px] md:blur-[4px] opacity-90"></div>
+            <div className="absolute inset-0 rounded-full disk-texture opacity-70 animate-[texture-spin_30s_linear_infinite]"></div>
+             </div>
+        </div>
 
-            {/* 3. THE EVENT HORIZON (Black Sphere) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-black rounded-full z-20 animate-[horizon-pulse_4s_ease-in-out_infinite]">
-                {/* Note: The 'glow' is handled by the box-shadow keyframes above for maximum thickness */}
-                {/* Inner Void */}
-                <div className="absolute inset-0 rounded-full bg-black"></div>
-            </div>
+        {/* 3. THE EVENT HORIZON (Black Sphere) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140px] sm:w-[196px] md:w-[280px] h-[140px] sm:h-[196px] md:h-[280px] bg-black rounded-full z-20 animate-[horizon-pulse_4s_ease-in-out_infinite]">
+            {/* Note: The 'glow' is handled by the box-shadow keyframes above for maximum thickness */}
+            {/* Inner Void */}
+            <div className="absolute inset-0 rounded-full bg-black"></div>
+        </div>
 
-            {/* 4. ACCRETION DISK (FRONT) 
-               The ring passing *in front* of the sphere. 
-               We mask the top half so it looks like it crosses over.
-            */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] z-30">
-                 <div className="w-full h-full rounded-full transform scale-y-[0.14] scale-x-100 relative">
-                     {/* GLOWING CORE */}
-                     <div className="absolute inset-0 rounded-full disk-gradient mix-blend-screen blur-[2px] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
-                     {/* TEXTURE */}
-                     <div className="absolute inset-0 rounded-full disk-texture opacity-90 animate-[texture-spin_30s_linear_infinite] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
-                 </div>
-            </div>
+        {/* 4. ACCRETION DISK (FRONT) 
+           The ring passing *in front* of the sphere. 
+           We mask the top half so it looks like it crosses over.
+        */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] sm:w-[630px] md:w-[900px] h-[450px] sm:h-[630px] md:h-[900px] z-30">
+             <div className="w-full h-full rounded-full transform scale-y-[0.14] scale-x-100 relative">
+             {/* GLOWING CORE */}
+             <div className="absolute inset-0 rounded-full disk-gradient mix-blend-screen blur-[2px] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+             {/* TEXTURE */}
+             <div className="absolute inset-0 rounded-full disk-texture opacity-90 animate-[texture-spin_30s_linear_infinite] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+             </div>
+        </div>
 
-            {/* 5. GRAVITATIONAL LENSING (BOTTOM ARCH) 
-               Light bending under the hole
-            */}
-            <div className="absolute bottom-[24%] left-1/2 -translate-x-1/2 w-[480px] h-[220px] border-b-[40px] border-orange-600/50 rounded-b-full blur-xl opacity-80"></div>
-            <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[580px] h-[280px] bg-red-900/30 rounded-b-full blur-[60px]"></div>
+        {/* 5. GRAVITATIONAL LENSING (BOTTOM ARCH) 
+           Light bending under the hole
+        */}
+        <div className="absolute bottom-[24%] left-1/2 -translate-x-1/2 w-[240px] sm:w-[336px] md:w-[480px] h-[110px] sm:h-[154px] md:h-[220px] border-b-[20px] sm:border-b-[28px] md:border-b-[40px] border-orange-600/50 rounded-b-full blur-xl opacity-80"></div>
+        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[290px] sm:w-[406px] md:w-[580px] h-[140px] sm:h-[196px] md:h-[280px] bg-red-900/30 rounded-b-full blur-[30px] sm:blur-[40px] md:blur-[60px]"></div>
 
         </div>
       </div>
@@ -321,7 +347,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* 2. PRESENTED BY */}
-        <div className="flex flex-col items-center md:items-start gap-2 mb-8 pl-2">
+        <div className="flex flex-col items-start gap-2 mb-8">
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-500">
             Presented By
           </p>
@@ -336,22 +362,23 @@ const Hero: React.FC = () => {
 
         {/* Description Text */}
         <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-12 leading-relaxed drop-shadow-md font-light pl-2">
-          Join us at the event horizon. Start your journey here, or build something never seen before. <br/><span className="text-white font-medium">Gravity is no limit.</span>
+          Join us at Canada's first hardware hackathon for highschoolers. Start your journey here, and build something never seen before. <br/><span className="text-white font-medium">Gravity is no limit.</span>
         </p>
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pl-1">
-          <a href="http://tiny.cc/catalyst-hack" className="w-full sm:w-auto">
-            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)]">
+          <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)] cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
               </span>
             </button>
+            <p className="text-center text-sm text-slate-400 mt-2">Details revealed Feb 6</p>
           </a>
           
           <a href="#faq" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2">
+            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2 cursor-pointer">
               View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
             </button>
           </a>
@@ -359,20 +386,16 @@ const Hero: React.FC = () => {
 
         {/* Logistics */}
         <div className="w-full md:w-auto border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-8 flex justify-center md:justify-start">
-          <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
-              <Calendar className="w-4 h-4 text-orange-400" />
-              <span className="text-slate-200">Saturday, March 7th, 2026</span>
+          <div className="flex flex-col sm:flex-row gap-8 text-sm font-medium">
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg min-w-fit">
+              <Calendar className="w-4 h-4 text-orange-400 flex-shrink-0" />
+              <CryptoText pattern="XXXXXXXX, XXXXX XXX, XXXX" className="text-slate-200" />
             </div>
             
-            <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
-               target="_blank" 
-               rel="noopener noreferrer"
-               className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all group shadow-lg"
-            >
-              <MapPin className="w-4 h-4 text-orange-400 group-hover:animate-bounce" />
-              <span className="text-slate-200 group-hover:text-white">STEM Complex, uOttawa</span>
-            </a>
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg min-w-fit">
+              <MapPin className="w-4 h-4 text-orange-400 flex-shrink-0" />
+              <CryptoText pattern="XXXX XXXXXXX, XXXXXXX" className="text-slate-200" />
+            </div>
           </div>
         </div>
 
@@ -410,7 +433,7 @@ const AboutSection: React.FC = () => {
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Innovate Beyond the Atmosphere</h2>
             <p className="text-slate-400 text-lg mb-6 leading-relaxed">
-              Catalyst is Ottawa's first high-school hardware hackathon, where creativity meets technology. Whether you're a beginner or a seasoned hacker, this is your chance to build projects that reach for the stars. <br></br> <br></br>Unlike traditional software hackathons:
+              Catalyst is Canada's first high-school hardware hackathon, where creativity meets technology. Whether you're a beginner or a seasoned hacker, this is your chance to build projects that reach for the stars. <br></br> <br></br>Unlike traditional software hackathons:
             </p>
             <ul className="space-y-4">
               {[
@@ -526,15 +549,15 @@ const HighlightsSection: React.FC = () => {
       title: "Build It IRL",
       description: "Build something for the 1st time or 50th time. Use parts you've never tried before.",
       image: "/about2.png", // 3D Printer/Building
-      caption: "Teenagers building @ Scrapyard Ottawa 2025, an event our team has helped organise.",
+      caption: "Teenagers building @ Scrapyard Ottawa 2025",
       color: "purple"
     },
     {
       icon: <Hammer className="w-8 h-8 text-orange-400 fill-orange-400" />,
       title: "Have fun!",
-      description: "Top teams get amazing prizes, but everyone leaves with new skills, friends, and memories.",
+      description: "Top teams get amazing prizes, and everyone leaves with new skills, friends, and memories.",
       image: "/about3.png", // People/Hackathon
-      caption: "Group photo @ Lockdown Ottawa 2025, another successful event we've helped organise.",
+      caption: "Group photo @ Lockdown 2025",
       color: "orange"
     }
   ];
@@ -631,8 +654,8 @@ const FlightPaths: React.FC = () => {
             </div>
 
             {/* Bottom Button */}
-            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7'>
-            <button className="mt-auto w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-cyan-400 group-hover:text-black">
+            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7' target="_blank" rel="noopener noreferrer">
+            <button className="mt-auto w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-cyan-400 group-hover:text-black cursor-pointer">
               Start Cadet Track <ArrowRight className="w-5 h-5" />
             </button>
             </a>
@@ -687,8 +710,8 @@ const FlightPaths: React.FC = () => {
             </div>
 
             {/* Bottom Button */}
-            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7'>
-            <button className="mt-auto w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-purple-400 group-hover:text-black">
+            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7' target="_blank" rel="noopener noreferrer">
+            <button className="mt-auto w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-purple-400 group-hover:text-black cursor-pointer">
               Start Commander Track <ArrowRight className="w-5 h-5" />
             </button>
             </a>
@@ -731,8 +754,8 @@ const LogisticsSection: React.FC = () => {
   // --- Data ---
   const scheduleData: DaySchedule[] = [
     {
-      day: "MISSION DAY 1",
-      date: "Saturday, March 7th",
+      day: "MISSION DAY 0",
+      date: "",
       events: [
         { time: "8:00", event: "Check-in & Swag Pickup", type: "main" },
         { time: "9:00", event: "Opening Ceremony", type: "main" },
@@ -760,7 +783,7 @@ const LogisticsSection: React.FC = () => {
     },
     {
       question: "Do I need a team?",
-      answer: "You can come solo, but we'll be making teams of 2-4 the standard. Don't have one? Discuss in the server to match partners before the event starts!"
+      answer: "You can come solo, but we'll be making teams of 3-4 the standard. Don't have one? Discuss in the server to match partners before the event starts!"
     },
     {
       question: "What hardware is available?",
@@ -885,7 +908,7 @@ const LogisticsSection: React.FC = () => {
               {/* FAQ CTA */}
               <div className="mt-8 p-6 rounded-xl bg-gradient-to-r from-purple-900/20 to-cyan-900/20 border border-white/10 text-center">
                 <p className="text-slate-300 mb-4">Have more questions?</p>
-                <a href="https://discord.gg/s9TS3xj3Am" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-bold hover:underline">
+                <a href="https://discord.gg/s9TS3xj3Am" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-bold hover:underline">
                   Join our Discord Server <Terminal className="w-4 h-4" />
                 </a>
               </div>
@@ -940,27 +963,35 @@ const Sponsors: React.FC = () => {
                   key={i}
                   onMouseEnter={() => setHoveredSponsor(`platinum-${i}`)}
                   onMouseLeave={() => setHoveredSponsor(null)}
-                  className={`group relative w-full md:w-[600px] rounded-3xl border border-cyan-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.2)] overflow-hidden`}
+                  className={`group relative w-full md:w-[600px] rounded-3xl border border-cyan-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:rotate-1 hover:border-cyan-400 hover:shadow-[0_0_60px_rgba(34,211,238,0.5),0_0_100px_rgba(139,92,246,0.3)] overflow-hidden`}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" style={{ animation: 'shimmer 2s infinite' }} />
+                  </div>
                   
                   {/* Aspect Ratio Replacement */}
                   <div className="aspect-video relative w-full flex items-center justify-center p-10">
                     {sponsor.logo ? (
-                      <a href={sponsor.url}>
-                        <img src={sponsor.logo} alt={sponsor.name} className="max-h-32 w-auto object-contain" />
+                      <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+                        <img src={sponsor.logo} alt={sponsor.name} className="max-h-32 w-auto object-contain group-hover:scale-110 transition-transform duration-500" />
                       </a>
                     ) : (
-                      <span className="text-3xl font-bold text-slate-300 group-hover:text-white transition-colors">
-                        {sponsor.name}
+                      <span className="text-3xl font-bold text-slate-300 group-hover:text-white group-hover:scale-110 transition-all duration-500 relative">
+                        <span className="absolute inset-0 text-cyan-400 opacity-0 group-hover:opacity-30 blur-sm">{sponsor.name}</span>
+                        <span className="relative">{sponsor.name}</span>
                       </span>
                     )}
                   </div>
                   
                   {/* Corner Icon */}
-                  <div className="absolute top-4 right-4 opacity-50">
-                    <Trophy className="w-6 h-6 text-cyan-500" />
+                  <div className="absolute top-4 right-4 opacity-50 group-hover:opacity-100 group-hover:rotate-12 group-hover:scale-125 transition-all duration-500">
+                    <Trophy className="w-6 h-6 text-cyan-500 group-hover:text-cyan-300" />
                   </div>
+                  
+                  {/* Animated Corner Accents */}
+                  <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-cyan-400/0 group-hover:border-cyan-400/80 transition-all duration-500 rounded-tl-3xl" />
+                  <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-cyan-400/0 group-hover:border-cyan-400/80 transition-all duration-500 rounded-br-3xl" />
                 </div>
               ))}
             </div>
@@ -985,7 +1016,7 @@ const Sponsors: React.FC = () => {
                   className="group relative w-full sm:w-[350px] rounded-2xl border border-yellow-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-yellow-400 hover:shadow-[0_0_20px_rgba(234,179,8,0.2)] overflow-hidden"
                 >
                   {sponsor.url ? (
-                    <a href={sponsor.url}>
+                    <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
                       <div className="aspect-video relative w-full flex items-center justify-center p-6">
                         {sponsor.logo ? (
                           <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
@@ -1022,7 +1053,7 @@ const Sponsors: React.FC = () => {
             
             <div className="flex flex-wrap justify-center gap-6 md:gap-8">
               {[
-                { name: "Your logo here", logo: null },
+                { name: "CIRA", logo: "/sponsors/sponsor_cira.png", url: "https://www.cira.ca/en/canadian-shield/" },
                 { name: "Your logo here", logo: null },
                 { name: "Your logo here", logo: null },
               ].map((sponsor, i) => (
@@ -1045,7 +1076,13 @@ const Sponsors: React.FC = () => {
                   {/* Content */}
                   <div className="relative z-10">
                      {sponsor.logo ? (
-                        <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
+                        sponsor.url ? (
+                          <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+                            <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain group-hover:scale-110 transition-transform" />
+                          </a>
+                        ) : (
+                          <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
+                        )
                      ) : (
                         <span className="text-lg font-bold text-slate-400 group-hover:text-white transition-colors">
                           {sponsor.name}
@@ -1134,7 +1171,13 @@ const Sponsors: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   
                   {sponsor.logo ? (
-                     <img src={sponsor.logo} alt={sponsor.name} className="max-h-16 w-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity" />
+                     <img 
+                       src={sponsor.logo} 
+                       alt={sponsor.name} 
+                       className={`w-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity ${
+                         sponsor.name === 'AOPS' ? 'max-h-12' : sponsor.name === 'Ingenium' ? 'max-h-10' : 'max-h-16'
+                       }`} 
+                     />
                   ) : (
                      <span className="text-xs font-bold text-slate-500 group-hover:text-pink-200 transition-colors">
                        {sponsor.name}
@@ -1152,8 +1195,70 @@ const Sponsors: React.FC = () => {
 };
 
 const Footer: React.FC = () => {
+  const [hearts, setHearts] = useState<Array<{ id: number; x: number; y: number; vx: number; vy: number }>>([]);
+
+  const handleHeartClick = (e: React.MouseEvent<SVGSVGElement>) => {
+    e.stopPropagation();
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+    
+    const footerRect = footer.getBoundingClientRect();
+    const rect = e.currentTarget.getBoundingClientRect();
+    
+    // Calculate position relative to footer
+    const relativeX = rect.left - footerRect.left + rect.width / 2;
+    const relativeY = rect.top - footerRect.top + rect.height / 2;
+    
+    const newHearts = Array.from({ length: 8 }, (_, i) => {
+      const angle = (Math.PI * 2 * i) / 8;
+      return {
+        id: Date.now() + i,
+        x: relativeX,
+        y: relativeY,
+        vx: Math.cos(angle) * 100,
+        vy: Math.sin(angle) * 100 - 150,
+      };
+    });
+    
+    setHearts(prev => [...prev, ...newHearts]);
+    
+    setTimeout(() => {
+      setHearts(prev => prev.filter(h => !newHearts.find(nh => nh.id === h.id)));
+    }, 2000);
+  };
+
   return (
-      <footer className="bg-foreground text-background py-12 px-4 sm:px-6 lg:px-8 bg-purple-900/10 border-t border-background/20">
+      <footer className="bg-foreground text-background py-12 px-4 sm:px-6 lg:px-8 bg-purple-900/10 border-t border-background/20 relative overflow-hidden">
+      {hearts.map((heart) => (
+        <Heart
+          key={heart.id}
+          className="w-3 h-3 text-red-500 fill-red-500 absolute pointer-events-none z-50"
+          style={{
+            left: `${heart.x}px`,
+            top: `${heart.y}px`,
+            transform: 'translate(-50%, -50%)',
+            animation: `heartFloat-${heart.id} 2s ease-out forwards`,
+          }}
+        />
+      ))}
+      <style>{`
+        ${hearts.map(heart => `
+          @keyframes heartFloat-${heart.id} {
+            0% {
+              transform: translate(-50%, -50%) scale(1) rotate(0deg);
+              opacity: 1;
+            }
+            50% {
+              transform: translate(calc(-50% + ${heart.vx * 0.5}px), calc(-50% + ${heart.vy * 0.5}px)) scale(1.2) rotate(${Math.random() * 360}deg);
+              opacity: 0.8;
+            }
+            100% {
+              transform: translate(calc(-50% + ${heart.vx}px), calc(-50% + ${heart.vy + 200}px)) scale(0.5) rotate(${Math.random() * 720}deg);
+              opacity: 0;
+            }
+          }
+        `).join('')}
+      `}</style>
       <div className="max-w-6xl mx-auto text-amber-50">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
@@ -1217,9 +1322,9 @@ const Footer: React.FC = () => {
 
         <div className="border-t border-background/20 pt-8 text-center text-background/70">
           <p className="flex items-center justify-center gap-2">
-            Made with <Heart className="w-4 h-4 text-primary" /> by the Redshifted Team
+            Made with <Heart onClick={handleHeartClick} className="w-4 h-4 text-primary inline-block transition-all duration-300 hover:scale-125 hover:text-red-500 hover:fill-red-500 hover:rotate-12 hover:drop-shadow-[0_0_8px_rgba(239,68,68,0.8)] hover:animate-pulse cursor-pointer" /> by the Redshifted Team
           </p>
-          <p className="mt-2">© {new Date().getFullYear()} Redshifted. All images are the respective property of their owners with permission.</p>
+          <p className="mt-2">© {new Date().getFullYear()} Redshifted. </p>
         </div>
       </div>
     </footer>
@@ -1359,45 +1464,45 @@ const WhiteHoleHero: React.FC = () => {
       </div>
 
       {/* --- WHITE HOLE (Left Side) --- */}
-      {/* Positioned Left ~20% */}
-      <div className="absolute top-1/2 left-[-20%] md:left-[-10%] -translate-y-1/2 w-[1000px] h-[1000px] flex items-center justify-center z-0 pointer-events-none scale-[0.6] md:scale-110">
+      {/* Positioned Left, scales down on mobile */}
+      <div className="absolute top-1/2 left-[-30%] md:left-[-20%] lg:left-[-10%] -translate-y-1/2 w-[600px] md:w-[800px] lg:w-[1000px] h-[600px] md:h-[800px] lg:h-[1000px] flex items-center justify-center z-0 pointer-events-none scale-50 sm:scale-75 md:scale-100 lg:scale-110">
         
         {/* TILT: Rotated +20deg (Opposite of black hole) */}
         <div className="relative w-full h-full rotate-[20deg]">
 
-            {/* 1. REAR LENSING (Top Arch - Blue) */}
-            <div className="absolute top-[22%] left-1/2 -translate-x-1/2 w-[500px] h-[350px] bg-blue-400/20 rounded-t-full blur-[60px]"></div>
-            <div className="absolute top-[24%] left-1/2 -translate-x-1/2 w-[420px] h-[280px] rounded-t-full border-t-[40px] border-cyan-200/80 blur-xl mix-blend-screen opacity-90"></div>
-            
-            {/* 2. ACCRETION DISK (BACK) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px]">
-                 <div className="w-full h-full rounded-full transform scale-y-[0.12] scale-x-100 relative">
-                    <div className="absolute inset-0 rounded-full whitehole-gradient blur-[6px] opacity-80"></div>
-                    {/* Reverse spin for expulsion look */}
-                    <div className="absolute inset-0 rounded-full whitehole-texture opacity-60 animate-[texture-spin-reverse_30s_linear_infinite]"></div>
-                 </div>
-            </div>
+        {/* 1. REAR LENSING (Top Arch - Blue) */}
+        <div className="absolute top-[22%] left-1/2 -translate-x-1/2 w-[300px] md:w-[400px] lg:w-[500px] h-[200px] md:h-[280px] lg:h-[350px] bg-blue-400/20 rounded-t-full blur-[40px] md:blur-[50px] lg:blur-[60px]"></div>
+        <div className="absolute top-[24%] left-1/2 -translate-x-1/2 w-[250px] md:w-[350px] lg:w-[420px] h-[160px] md:h-[220px] lg:h-[280px] rounded-t-full border-t-[25px] md:border-t-[35px] lg:border-t-[40px] border-cyan-200/80 blur-xl mix-blend-screen opacity-90"></div>
+        
+        {/* 2. ACCRETION DISK (BACK) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] md:w-[700px] lg:w-[850px] h-[500px] md:h-[700px] lg:h-[850px]">
+             <div className="w-full h-full rounded-full transform scale-y-[0.12] scale-x-100 relative">
+            <div className="absolute inset-0 rounded-full whitehole-gradient blur-[4px] md:blur-[5px] lg:blur-[6px] opacity-80"></div>
+            {/* Reverse spin for expulsion look */}
+            <div className="absolute inset-0 rounded-full whitehole-texture opacity-60 animate-[texture-spin-reverse_30s_linear_infinite]"></div>
+             </div>
+        </div>
 
-            {/* 3. THE SINGULARITY (White Sphere) */}
-            {/* Instead of black, this is solid white/cyan */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] bg-white rounded-full z-20 animate-[singularity-pulse_3s_ease-in-out_infinite]">
-                {/* Intense Blur Glow */}
-                <div className="absolute inset-0 rounded-full bg-cyan-100 blur-xl"></div>
-            </div>
+        {/* 3. THE SINGULARITY (White Sphere) */}
+        {/* Instead of black, this is solid white/cyan */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150px] md:w-[200px] lg:w-[260px] h-[150px] md:h-[200px] lg:h-[260px] bg-white rounded-full z-20 animate-[singularity-pulse_3s_ease-in-out_infinite]">
+            {/* Intense Blur Glow */}
+            <div className="absolute inset-0 rounded-full bg-cyan-100 blur-xl"></div>
+        </div>
 
-            {/* 4. ACCRETION DISK (FRONT) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] z-30">
-                 <div className="w-full h-full rounded-full transform scale-y-[0.12] scale-x-100 relative">
-                     {/* Bright Core */}
-                     <div className="absolute inset-0 rounded-full whitehole-gradient mix-blend-screen blur-[2px] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
-                     {/* Texture */}
-                     <div className="absolute inset-0 rounded-full whitehole-texture opacity-90 animate-[texture-spin-reverse_30s_linear_infinite] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
-                 </div>
-            </div>
+        {/* 4. ACCRETION DISK (FRONT) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] md:w-[700px] lg:w-[850px] h-[500px] md:h-[700px] lg:h-[850px] z-30">
+             <div className="w-full h-full rounded-full transform scale-y-[0.12] scale-x-100 relative">
+             {/* Bright Core */}
+             <div className="absolute inset-0 rounded-full whitehole-gradient mix-blend-screen blur-[2px] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+             {/* Texture */}
+             <div className="absolute inset-0 rounded-full whitehole-texture opacity-90 animate-[texture-spin-reverse_30s_linear_infinite] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+             </div>
+        </div>
 
-            {/* 5. BOTTOM LENSING */}
-            <div className="absolute bottom-[24%] left-1/2 -translate-x-1/2 w-[450px] h-[200px] border-b-[30px] border-blue-400/60 rounded-b-full blur-xl opacity-80"></div>
-            <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[550px] h-[250px] bg-cyan-900/20 rounded-b-full blur-[60px]"></div>
+        {/* 5. BOTTOM LENSING */}
+        <div className="absolute bottom-[24%] left-1/2 -translate-x-1/2 w-[280px] md:w-[380px] lg:w-[450px] h-[120px] md:h-[160px] lg:h-[200px] border-b-[20px] md:border-b-[25px] lg:border-b-[30px] border-blue-400/60 rounded-b-full blur-xl opacity-80"></div>
+        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[320px] md:w-[450px] lg:w-[550px] h-[150px] md:h-[200px] lg:h-[250px] bg-cyan-900/20 rounded-b-full blur-[40px] md:blur-[50px] lg:blur-[60px]"></div>
 
         </div>
       </div>
@@ -1445,18 +1550,21 @@ const WhiteHoleHero: React.FC = () => {
         </p>
 
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row items-center md:items-end gap-5 w-full sm:w-auto mb-16 pr-1">
-          <a href="http://tiny.cc/catalyst-hack" className="w-full sm:w-auto">
-            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,255,0.5)]">
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-200 to-white opacity-40 group-hover:opacity-60 transition-opacity"></div>
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                Begin Creation <Zap className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform fill-black" />
-              </span>
-            </button>
-          </a>
+        <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pr-1">
+          <div className="w-full sm:w-auto">
+            <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+              <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,255,0.5)] cursor-pointer">
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-200 to-white opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  Begin Creation <Zap className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform fill-black" />
+                </span>
+              </button>
+            </a>
+            <p className="text-center text-sm text-slate-400 mt-2">Details revealed Feb 6</p>
+          </div>
           
           <a href="#faq" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/20 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/50 transition-all flex items-center justify-center gap-2">
+            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/20 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/50 transition-all flex items-center justify-center gap-2 cursor-pointer">
               View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
             </button>
           </a>
@@ -1464,20 +1572,16 @@ const WhiteHoleHero: React.FC = () => {
 
         {/* Logistics */}
         <div className="w-full md:w-auto border-t md:border-t-0 md:border-r border-white/10 pt-8 md:pt-0 md:pr-8 flex justify-center md:justify-end">
-          <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
-              <Calendar className="w-4 h-4 text-cyan-300" />
-              <span className="text-slate-200">Saturday, March 7th, 2026</span>
+          <div className="flex flex-col sm:flex-row gap-8 text-sm font-medium">
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg min-w-fit">
+              <Calendar className="w-4 h-4 text-cyan-300 flex-shrink-0" />
+              <CryptoText pattern="XXXXXXXX, XXXXX XXX, XXXX" className="text-slate-200" />
             </div>
             
-            <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
-               target="_blank" 
-               rel="noopener noreferrer"
-               className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-cyan-400/50 transition-all group shadow-lg"
-            >
-              <MapPin className="w-4 h-4 text-cyan-300 group-hover:animate-bounce" />
-              <span className="text-slate-200 group-hover:text-white">STEM Complex, uOttawa</span>
-            </a>
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg min-w-fit">
+              <MapPin className="w-4 h-4 text-cyan-300 flex-shrink-0" />
+              <CryptoText pattern="XXXX XXXXXXX, XXXXXXX" className="text-slate-200" />
+            </div>
           </div>
         </div>
 
