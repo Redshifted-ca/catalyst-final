@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
               <Rocket className="h-10 w-10   text-white" />
             </div>
             <img 
-              src="/src/assets/catalystlogo.png" 
+              src="/catalystlogo.png" 
               alt="Catalyst logo" 
               className="h-10 md:h-14 w-auto object-contain" 
             />
@@ -332,7 +332,7 @@ const Hero: React.FC = () => {
         <div className="relative group mb-8">
            <div className="absolute -inset-10 bg-orange-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
            <img 
-             src="/src/assets/catalystlogo.png" 
+             src="/catalystlogo.png" 
              alt="Catalyst Logo" 
              className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]"
            />
@@ -345,7 +345,7 @@ const Hero: React.FC = () => {
           </p>
           <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
              <img 
-               src="/src/assets/redshifted-logo.png" 
+               src="/redshifted-logo.png" 
                alt="Redshifted Logo" 
                className="h-8 md:h-12 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
              />
@@ -1500,7 +1500,7 @@ const WhiteHoleHero: React.FC = () => {
         <div className="relative group mb-8">
            <div className="absolute -inset-10 bg-cyan-500/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
            <img 
-             src="/src/assets/catalystlogo.png" 
+             src="/catalystlogo.png" 
              alt="Catalyst Logo" 
              className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.4)]"
            />
@@ -1513,7 +1513,7 @@ const WhiteHoleHero: React.FC = () => {
           </p>
           <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
              <img 
-               src="/src/assets/redshifted-logo.png" 
+               src="/redshifted-logo.png" 
                alt="Redshifted Logo" 
                className="h-8 md:h-12 w-auto opacity-90 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
              />
