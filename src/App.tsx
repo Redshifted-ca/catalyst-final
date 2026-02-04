@@ -188,6 +188,7 @@ const Hero: React.FC = () => {
           animation-name: converge;
           animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
           animation-iteration-count: infinite;
+          animation-fill-mode: both;
         }
 
         /* 3. Detailed "Gargantua" Gradient Styles */
