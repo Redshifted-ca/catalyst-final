@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Rocket, Calendar, MapPin, Menu, X, ChevronRight, Zap, Star, Box, Hammer, Trophy, Award, TrendingUp, Heart, Plus, Minus, Clock, HelpCircle, Terminal, Instagram, Mail, BookOpen, Wrench, ArrowRight, ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // --- Types ---
 interface NavItem {
@@ -1579,6 +1581,8 @@ function App() {
       <LogisticsSection />
       <WhiteHoleHero />
       <Footer />
+      <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
