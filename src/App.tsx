@@ -116,137 +116,127 @@ const Navbar: React.FC = () => {
 
 
 const Hero: React.FC = () => {
-  // --- CONFIGURATION FOR FLOATING ITEMS ---
+  // --- 1. COUNTDOWN LOGIC ---
+  const calculateTimeLeft = () => {
+    // Target: March 7, 2026 (EST assumed based on Ottawa location)
+    const difference = +new Date("2026-03-07T09:00:00") - +new Date();
+    
+    if (difference > 0) {
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [showConfetti, setShowConfetti] = useState(true);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // --- 2. CONFETTI LOGIC ---
+  // Stop rendering confetti after 5 seconds to save resources
+  useEffect(() => {
+    const timer = setTimeout(() => setShowConfetti(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // --- FLOATING DEBRIS CONFIG ---
   const debrisItems = [
-    { id: 1, src: "https://cdn-icons-png.flaticon.com/512/2560/2560576.png", size: "w-16" }, // Laptop
-    { id: 2, src: "https://cdn-icons-png.flaticon.com/512/1046/1046775.png", size: "w-12" }, // Mouse
-    { id: 3, src: "https://cdn-icons-png.flaticon.com/512/428/428001.png", size: "w-20" }, // Rocket
-    { id: 4, src: "https://cdn-icons-png.flaticon.com/512/2165/2165212.png", size: "w-10" }, // Chip
-    { id: 5, src: "https://cdn-icons-png.flaticon.com/512/2906/2906274.png", size: "w-14" }, // Coffee
-    { id: 6, src: "https://cdn-icons-png.flaticon.com/512/644/644667.png", size: "w-12" }, // Planet
+    { id: 1, src: "https://cdn-icons-png.flaticon.com/512/2560/2560576.png", size: "w-16" }, 
+    { id: 2, src: "https://cdn-icons-png.flaticon.com/512/1046/1046775.png", size: "w-12" }, 
+    { id: 3, src: "https://cdn-icons-png.flaticon.com/512/428/428001.png", size: "w-20" }, 
+    { id: 4, src: "https://cdn-icons-png.flaticon.com/512/2165/2165212.png", size: "w-10" }, 
+    { id: 5, src: "https://cdn-icons-png.flaticon.com/512/2906/2906274.png", size: "w-14" }, 
+    { id: 6, src: "https://cdn-icons-png.flaticon.com/512/644/644667.png", size: "w-12" }, 
   ];
 
   const [items, setItems] = useState<any[]>([]);
 
   useEffect(() => {
-    // Distribute items evenly across the vertical axis
-    const totalSpan = 80; // Use middle 80% of screen
-    const segmentSize = totalSpan / debrisItems.length;
-
-    const randomized = debrisItems.map((item, index) => {
-      const basePos = 10 + (index * segmentSize); 
-      const noise = Math.random() * (segmentSize * 0.8);
-      
-      return {
-        ...item,
-        startY: basePos + noise, 
-        delay: Math.random() * 5,
-        duration: 6 + Math.random() * 3
-      };
-    });
-    
-    setItems(randomized.sort(() => Math.random() - 0.5));
+    const randomized = debrisItems.map((item) => ({
+      ...item,
+      startY: Math.floor(Math.random() * 80 + 10), 
+      delay: Math.random() * 5,
+      duration: 5 + Math.random() * 3
+    }));
+    setItems(randomized);
   }, []);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 pt-20">
       
-      {/* --- CSS PHYSICS ENGINE & VISUALS --- */}
+      {/* --- CSS ENGINE --- */}
       <style>{`
-        /* 1. Texture Spin */
-        @keyframes texture-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        /* 1. Confetti Animation */
+        @keyframes confetti-fall {
+          0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .confetti-piece {
+          position: absolute;
+          top: -10px;
+          width: 10px;
+          height: 10px;
+          animation: confetti-fall 4s linear forwards;
         }
 
-        /* 2. Debris Convergence Physics */
+        /* 2. Existing Physics (Black Hole & Debris) */
+        @keyframes texture-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes horizon-pulse {
+          0%, 100% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.6), inset 0 0 20px black; }
+          50% { box-shadow: 0 0 80px rgba(255, 255, 255, 0.9), inset 0 0 50px black; }
+        }
         @keyframes converge {
-          0% {
-            left: -150px;
-            top: var(--start-y);
-            transform: scale(1) rotate(0deg);
-            opacity: 0;
-          }
+          0% { left: -150px; top: var(--start-y); transform: scale(1) rotate(0deg); opacity: 0; }
           10% { opacity: 1; }
-          
-          /* The Gravity Turn */
-          60% {
-             left: 60%; 
-             top: var(--start-y);
-             transform: scale(0.8) rotate(180deg);
-          }
-
-          /* The Singularity */
-          100% {
-            left: 80%; /* Target Black Hole Center X */
-            top: 50%;  /* Target Black Hole Center Y */
-            transform: scale(0) rotate(720deg);
-            opacity: 0;
-          }
+          60% { left: 60%; top: var(--start-y); transform: scale(0.8) rotate(180deg); }
+          100% { left: 80%; top: 50%; transform: scale(0) rotate(720deg); opacity: 0; }
         }
-
         .debris-item {
           position: absolute;
           animation-name: converge;
           animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
           animation-iteration-count: infinite;
-          animation-fill-mode: both;
         }
-
-        /* 3. Detailed "Gargantua" Gradient Styles */
         .disk-gradient {
-          /* 
-             Layered Temperatures: 
-             Clear Center -> Sharp White Edge -> Yellow -> Intense Orange -> Deep Red -> Fade 
-          */
-          background: radial-gradient(circle, 
-            transparent 25%, 
-            rgba(255,255,255,1) 28%, 
-            rgba(255,230,150,1) 32%, 
-            rgba(255,140,0,1) 45%, 
-            rgba(180,20,0,0.95) 60%,
-            transparent 72%
-          );
+          background: radial-gradient(circle, rgba(255,255,255,1) 20%, rgba(255,240,200,1) 30%, rgba(255,160,0,1) 45%, rgba(180,40,0,0.9) 60%, transparent 75%);
         }
-        
         .disk-texture {
-          /* High-frequency noise pattern for gas streams */
-          background: repeating-conic-gradient(
-            from 0deg, 
-            rgba(0,0,0,0.4) 0deg, 
-            transparent 1deg, 
-            transparent 3deg,
-            rgba(0,0,0,0.4) 4deg
-          );
-          filter: contrast(1.5); /* Enhance the definition of the streaks */
-        }
-
-        /* 4. The Thick Photon Sphere Glow */
-        @keyframes horizon-pulse {
-           0%, 100% {
-             box-shadow: 
-               inset 0 0 60px #000000,          /* Deep Inner Void */
-               0 0 10px 4px #ffffff,            /* Thick Solid White Rim */
-               0 0 30px 10px rgba(255,200,50,0.8), /* Golden Transition */
-               0 0 70px 30px rgba(255, 100, 0, 0.6); /* Outer Orange Haze */
-           }
-           50% {
-             box-shadow: 
-               inset 0 0 70px #000000,
-               0 0 12px 5px #ffffff,           /* Pulse thicker */
-               0 0 40px 15px rgba(255,200,50,0.9),
-               0 0 90px 40px rgba(255, 100, 0, 0.8);
-           }
+          background: repeating-conic-gradient(from 0deg, rgba(0,0,0,0.1) 0deg, transparent 5deg, rgba(0,0,0,0.3) 10deg, transparent 15deg);
         }
       `}</style>
 
+      {/* --- CONFETTI OVERLAY (Only shows on mount) --- */}
+      {showConfetti && (
+        <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <div
+              key={i}
+              className="confetti-piece"
+              style={{
+                left: `${Math.random() * 100}%`,
+                backgroundColor: ['#22d3ee', '#a855f7', '#f97316', '#ffffff'][Math.floor(Math.random() * 4)],
+                animationDelay: `${Math.random() * 2}s`,
+                width: `${Math.random() * 8 + 4}px`,
+                height: `${Math.random() * 12 + 6}px`,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
-      
       {/* --- BACKGROUND LAYER --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Deep Orange/Black Space */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-950/20 via-slate-950 to-black"></div>
-        {/* Stars */}
         <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'radial-gradient(white 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
       </div>
 
@@ -268,87 +258,66 @@ const Hero: React.FC = () => {
         ))}
       </div>
 
-      {/* --- GARGANTUA BLACK HOLE (Center Right) --- */}
-      <div className="absolute top-1/2 right-[-40%] sm:right-[-30%] md:right-[-20%] lg:right-[-10%] -translate-y-1/2 w-[600px] sm:w-[800px] md:w-[1000px] lg:w-[1200px] h-[600px] sm:h-[800px] md:h-[1000px] lg:h-[1200px] flex items-center justify-center z-0 pointer-events-none scale-50 sm:scale-75 md:scale-100 lg:scale-110">
-        
-        {/* TILT CONTAINER: Rotate -25deg to match the movie poster angle */}
+      {/* --- GARGANTUA BLACK HOLE --- */}
+      <div className="absolute top-1/2 right-[-20%] md:right-[-10%] -translate-y-1/2 w-[1000px] h-[1000px] flex items-center justify-center z-0 pointer-events-none scale-[0.6] md:scale-110">
         <div className="relative w-full h-full rotate-[-25deg]">
-
-        {/* 1. GRAVITATIONAL LENSING (TOP ARCH) 
-           The light bending over the top of the hole 
-        */}
-        <div className="absolute top-[22%] left-1/2 -translate-x-1/2 w-[280px] sm:w-[380px] md:w-[550px] h-[200px] sm:h-[280px] md:h-[400px] bg-orange-600/20 rounded-t-full blur-[30px] sm:blur-[40px] md:blur-[60px]"></div>
-        <div className="absolute top-[24%] left-1/2 -translate-x-1/2 w-[240px] sm:w-[320px] md:w-[460px] h-[150px] sm:h-[210px] md:h-[300px] rounded-t-full border-t-[25px] sm:border-t-[35px] md:border-t-[50px] border-orange-200/50 blur-xl mix-blend-screen opacity-90"></div>
-        
-        {/* 2. ACCRETION DISK (BACK) 
-           The ring passing *behind* the sphere
-        */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] sm:w-[630px] md:w-[900px] h-[450px] sm:h-[630px] md:h-[900px]">
-             <div className="w-full h-full rounded-full transform scale-y-[0.14] scale-x-100 relative">
-            <div className="absolute inset-0 rounded-full disk-gradient blur-[2px] sm:blur-[3px] md:blur-[4px] opacity-90"></div>
-            <div className="absolute inset-0 rounded-full disk-texture opacity-70 animate-[texture-spin_30s_linear_infinite]"></div>
-             </div>
-        </div>
-
-        {/* 3. THE EVENT HORIZON (Black Sphere) */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140px] sm:w-[196px] md:w-[280px] h-[140px] sm:h-[196px] md:h-[280px] bg-black rounded-full z-20 animate-[horizon-pulse_4s_ease-in-out_infinite]">
-            {/* Note: The 'glow' is handled by the box-shadow keyframes above for maximum thickness */}
-            {/* Inner Void */}
-            <div className="absolute inset-0 rounded-full bg-black"></div>
-        </div>
-
-        {/* 4. ACCRETION DISK (FRONT) 
-           The ring passing *in front* of the sphere. 
-           We mask the top half so it looks like it crosses over.
-        */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] sm:w-[630px] md:w-[900px] h-[450px] sm:h-[630px] md:h-[900px] z-30">
-             <div className="w-full h-full rounded-full transform scale-y-[0.14] scale-x-100 relative">
-             {/* GLOWING CORE */}
-             <div className="absolute inset-0 rounded-full disk-gradient mix-blend-screen blur-[2px] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
-             {/* TEXTURE */}
-             <div className="absolute inset-0 rounded-full disk-texture opacity-90 animate-[texture-spin_30s_linear_infinite] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
-             </div>
-        </div>
-
-        {/* 5. GRAVITATIONAL LENSING (BOTTOM ARCH) 
-           Light bending under the hole
-        */}
-        <div className="absolute bottom-[24%] left-1/2 -translate-x-1/2 w-[240px] sm:w-[336px] md:w-[480px] h-[110px] sm:h-[154px] md:h-[220px] border-b-[20px] sm:border-b-[28px] md:border-b-[40px] border-orange-600/50 rounded-b-full blur-xl opacity-80"></div>
-        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[290px] sm:w-[406px] md:w-[580px] h-[140px] sm:h-[196px] md:h-[280px] bg-red-900/30 rounded-b-full blur-[30px] sm:blur-[40px] md:blur-[60px]"></div>
-
+            {/* Lensing */}
+            <div className="absolute top-[22%] left-1/2 -translate-x-1/2 w-[500px] h-[350px] bg-orange-500/20 rounded-t-full blur-[60px]"></div>
+            <div className="absolute top-[24%] left-1/2 -translate-x-1/2 w-[420px] h-[280px] rounded-t-full border-t-[40px] border-orange-200/80 blur-xl mix-blend-screen opacity-90"></div>
+            {/* Back Disk */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px]">
+                 <div className="w-full h-full rounded-full transform scale-y-[0.12] scale-x-100 relative">
+                    <div className="absolute inset-0 rounded-full disk-gradient blur-[6px] opacity-80"></div>
+                    <div className="absolute inset-0 rounded-full disk-texture opacity-50 animate-[texture-spin_30s_linear_infinite]"></div>
+                 </div>
+            </div>
+            {/* Event Horizon */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] bg-black rounded-full z-20 shadow-[0_0_80px_rgba(255,100,0,0.4)]">
+                <div className="absolute inset-0 rounded-full border-[2px] border-white/90 blur-[1px]"></div>
+                <div className="absolute inset-[2px] rounded-full bg-black"></div>
+            </div>
+            {/* Front Disk */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] z-30">
+                 <div className="w-full h-full rounded-full transform scale-y-[0.12] scale-x-100 relative">
+                     <div className="absolute inset-0 rounded-full disk-gradient mix-blend-screen blur-[2px] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+                     <div className="absolute inset-0 rounded-full disk-texture opacity-80 animate-[texture-spin_30s_linear_infinite] [mask-image:linear-gradient(to_bottom,transparent_48%,black_52%)]"></div>
+                 </div>
+            </div>
+            {/* Bottom Lensing */}
+            <div className="absolute bottom-[24%] left-1/2 -translate-x-1/2 w-[450px] h-[200px] border-b-[30px] border-orange-600/60 rounded-b-full blur-xl opacity-80"></div>
+            <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[550px] h-[250px] bg-red-900/20 rounded-b-full blur-[60px]"></div>
         </div>
       </div>
 
       {/* --- UI CONTENT LAYER --- */}
       <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center md:items-start text-center md:text-left">
         
-        {/* Status Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-orange-500/30 mb-8 animate-float shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:border-orange-400 transition-colors cursor-default">
+        {/* Status Badge - Updated for Launch Day */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-green-500/30 mb-8 animate-float shadow-[0_0_20px_rgba(34,197,94,0.2)] hover:border-green-400 transition-colors cursor-default">
           <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
-          <span className="text-orange-100 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Anomaly Detected</span>
+          <span className="text-green-100 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Systems Online</span>
         </div>
 
         {/* 1. CATALYST LOGO */}
-        <div className="relative group mb-8">
-           <div className="absolute -inset-10 bg-orange-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+        <div className="relative group mb-6">
            <img 
-             src="/catalystlogo.png" 
+             src="/src/assets/catalystlogo.png" 
              alt="Catalyst Logo" 
              className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]"
            />
         </div>
 
         {/* 2. PRESENTED BY */}
-        <div className="flex flex-col items-start gap-2 mb-8">
+        <div className="flex flex-col items-center md:items-start gap-2 mb-8 pl-2">
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-500">
             Presented By
           </p>
           <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
              <img 
-               src="/redshifted-logo.png" 
+               src="/src/assets/redshifted-logo.png" 
                alt="Redshifted Logo" 
                className="h-8 md:h-12 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
              />
@@ -356,14 +325,33 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Description Text */}
-        <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-12 leading-relaxed drop-shadow-md font-light pl-2">
-          Join us at Canada's first hardware hackathon for highschoolers. Start your journey here, and build something never seen before. <br/><span className="text-white font-medium">Gravity is no limit.</span>
+        <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-8 leading-relaxed drop-shadow-md font-light pl-2">
+          Join us at the event horizon. Start your journey here, or build something never seen before. <br/><span className="text-white font-medium">Gravity is no limit.</span>
         </p>
+
+        {/* --- 3. COUNTDOWN TIMER --- */}
+        <div className="flex gap-4 md:gap-6 mb-12 pl-2">
+           {[
+             { label: 'Days', value: timeLeft.days },
+             { label: 'Hours', value: timeLeft.hours },
+             { label: 'Minutes', value: timeLeft.minutes },
+             { label: 'Seconds', value: timeLeft.seconds }
+           ].map((item, i) => (
+             <div key={i} className="flex flex-col items-center">
+               <div className="w-16 h-16 md:w-20 md:h-20 bg-slate-900/50 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center shadow-lg">
+                 <span className="text-2xl md:text-3xl font-mono font-bold text-white tabular-nums">
+                   {item.value < 10 ? `0${item.value}` : item.value}
+                 </span>
+               </div>
+               <span className="text-[10px] uppercase tracking-wider text-slate-400 mt-2">{item.label}</span>
+             </div>
+           ))}
+        </div>
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pl-1">
-          <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)] cursor-pointer">
+          <a href="http://tiny.cc/catalyst-hack" className="w-full sm:w-auto">
+            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)]">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
@@ -372,7 +360,7 @@ const Hero: React.FC = () => {
           </a>
           
           <a href="#faq" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2">
               View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
             </button>
           </a>
@@ -380,9 +368,9 @@ const Hero: React.FC = () => {
 
         {/* Logistics */}
         <div className="w-full md:w-auto border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-8 flex justify-center md:justify-start">
-          <div className="flex flex-col sm:flex-row gap-8 text-sm font-medium min-w-fit">
+          <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
             <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
-              <Calendar className="w-4 h-4 text-orange-400 flex-shrink-0"  />
+              <Calendar className="w-4 h-4 text-orange-400" />
               <span className="text-slate-200">Saturday, March 7th, 2026</span>
             </div>
             
