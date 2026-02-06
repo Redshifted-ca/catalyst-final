@@ -366,7 +366,6 @@ const Hero: React.FC = () => {
                 Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
               </span>
             </button>
-            <p className="text-center text-sm text-slate-400 mt-2">Details revealed Feb 6</p>
           </a>
           
           <a href="#faq" className="w-full sm:w-auto">
@@ -378,16 +377,20 @@ const Hero: React.FC = () => {
 
         {/* Logistics */}
         <div className="w-full md:w-auto border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-8 flex justify-center md:justify-start">
-          <div className="flex flex-col sm:flex-row gap-8 text-sm font-medium">
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg min-w-fit">
-              <Calendar className="w-4 h-4 text-orange-400 flex-shrink-0" />
-              <CryptoText pattern="XXXXXXXX, XXXXX XXX, XXXX" className="text-slate-200" />
+          <div className="flex flex-col sm:flex-row gap-8 text-sm font-medium min-w-fit">
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
+              <Calendar className="w-4 h-4 text-orange-400 flex-shrink-0"  />
+              <span className="text-slate-200">Saturday, March 7th, 2026</span>
             </div>
             
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg min-w-fit">
-              <MapPin className="w-4 h-4 text-orange-400 flex-shrink-0" />
-              <CryptoText pattern="XXXX XXXXXXX, XXXXXXX" className="text-slate-200" />
-            </div>
+            <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all group shadow-lg"
+            >
+              <MapPin className="w-4 h-4 text-orange-400 group-hover:animate-bounce" />
+              <span className="text-slate-200 group-hover:text-white">STEM Complex, uOttawa</span>
+            </a>
           </div>
         </div>
 
@@ -1536,7 +1539,6 @@ const WhiteHoleHero: React.FC = () => {
                 </span>
               </button>
             </a>
-            <p className="text-center text-sm text-slate-400 mt-2">Details revealed Feb 6</p>
           </div>
           
           <a href="#faq" className="w-full sm:w-auto">
@@ -1548,16 +1550,20 @@ const WhiteHoleHero: React.FC = () => {
 
         {/* Logistics */}
         <div className="w-full md:w-auto border-t md:border-t-0 md:border-r border-white/10 pt-8 md:pt-0 md:pr-8 flex justify-center md:justify-end">
-          <div className="flex flex-col sm:flex-row gap-8 text-sm font-medium">
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg min-w-fit">
-              <Calendar className="w-4 h-4 text-cyan-300 flex-shrink-0" />
-              <CryptoText pattern="XXXXXXXX, XXXXX XXX, XXXX" className="text-slate-200" />
+          <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
+            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
+              <Calendar className="w-4 h-4 text-cyan-300" />
+              <span className="text-slate-200">Saturday, March 7th, 2026</span>
             </div>
             
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg min-w-fit">
-              <MapPin className="w-4 h-4 text-cyan-300 flex-shrink-0" />
-              <CryptoText pattern="XXXX XXXXXXX, XXXXXXX" className="text-slate-200" />
-            </div>
+            <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-cyan-400/50 transition-all group shadow-lg"
+            >
+              <MapPin className="w-4 h-4 text-cyan-300 group-hover:animate-bounce" />
+              <span className="text-slate-200 group-hover:text-white">STEM Complex, uOttawa</span>
+            </a>
           </div>
         </div>
 
