@@ -11,7 +11,7 @@ interface NavItem {
 
 
 // --- Components ---
-
+{/*
 const CryptoText: React.FC<{ pattern: string; className?: string }> = ({ pattern, className = '' }) => {
   const [displayText, setDisplayText] = useState(pattern);
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -37,7 +37,7 @@ const CryptoText: React.FC<{ pattern: string; className?: string }> = ({ pattern
   
   return <span className={`${className} font-mono`} style={{ letterSpacing: '0.05em' }}>{displayText}</span>;
 };
-
+*/}
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
