@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
                   {item.label}
                 </a>
               ))}
-              <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer">
+              <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer">
               <button className="bg-white text-slate-900 hover:bg-cyan-400 hover:text-black px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 cursor-pointer">
                 Register Now
               </button>
@@ -362,7 +362,7 @@ const Hero: React.FC = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pl-1">
-          <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+          <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
             <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)] cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
@@ -1257,7 +1257,7 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer">
+                <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer">
                   Register
                 </a>
               </li>
@@ -1534,7 +1534,7 @@ const WhiteHoleHero: React.FC = () => {
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pr-1">
           <div className="w-full sm:w-auto">
-            <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+            <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
               <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,255,0.5)] cursor-pointer">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-200 to-white opacity-40 group-hover:opacity-60 transition-opacity"></div>
                 <span className="relative z-10 flex items-center justify-center gap-2">
