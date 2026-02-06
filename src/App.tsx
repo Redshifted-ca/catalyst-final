@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Rocket, Calendar, MapPin, Menu, X, ChevronRight, Zap, Star, Box, Hammer, Trophy, Award, TrendingUp, Heart, Plus, Minus, Clock, HelpCircle, Terminal, Instagram, Mail, BookOpen, Wrench, ArrowRight, ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // --- Types ---
 interface NavItem {
@@ -188,6 +190,7 @@ const Hero: React.FC = () => {
           animation-name: converge;
           animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
           animation-iteration-count: infinite;
+          animation-fill-mode: both;
         }
 
         /* 3. Detailed "Gargantua" Gradient Styles */
@@ -1584,6 +1587,8 @@ function App() {
       <LogisticsSection />
       <WhiteHoleHero />
       <Footer />
+      <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
