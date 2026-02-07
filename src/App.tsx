@@ -322,35 +322,38 @@ const Hero: React.FC = () => {
       {/* --- UI CONTENT LAYER --- */}
       <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center md:items-start text-center md:text-left">
         
-        {/* Status Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-orange-500/30 mb-8 animate-float shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:border-orange-400 transition-colors cursor-default">
-          <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-          </span>
-          <span className="text-orange-100 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Anomaly Detected</span>
+        {/* Logo Group - Redshifted + Catalyst */}
+        <div className="flex flex-col items-center mb-8">
+          {/* Redshifted Logo */}
+          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="group">
+            <img 
+              src="/redshifted-logo.png" 
+              alt="Redshifted Logo" 
+              className="h-10 md:h-12 w-auto opacity-90 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all duration-300"
+            />
+          </a>
+
+          {/* Catalyst Logo */}
+          <div className="relative group -mt-0 md:-mt-0 -z-10">
+            <div className="absolute -inset-10 bg-orange-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+            <img 
+              src="/catalystlogo.png" 
+              alt="Catalyst Logo" 
+              className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]"
+            />
+          </div>
         </div>
 
-        {/* 1. CATALYST LOGO */}
-        <div className="relative group mb-8">
-           <div className="absolute -inset-10 bg-orange-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-           <img 
-             src="/catalystlogo.png" 
-             alt="Catalyst Logo" 
-             className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]"
-           />
-        </div>
-
-        {/* 2. PRESENTED BY */}
+        {/* 2. POWERED BY */}
         <div className="flex flex-col items-start gap-2 mb-8">
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-500">
-            Presented By
+            POWERED BY
           </p>
-          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
+          <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group">
              <img 
-               src="/redshifted-logo.png" 
-               alt="Redshifted Logo" 
-               className="h-8 md:h-12 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
+               src="/sponsors/sponsor_thales.png" 
+               alt="Thales Logo" 
+               className="h-8 md:h-7 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
              />
           </a>
         </div>
@@ -926,51 +929,63 @@ const Sponsors: React.FC = () => {
         
         <div className="space-y-20">
           
-          {/* --- PLATINUM SPONSORS --- */}
+          {/* --- TITLE SPONSOR --- */}
           <div className="space-y-8">
             <div className="flex items-center justify-center gap-3">
               <Trophy className="w-8 h-8 text-cyan-400" />
-              <h3 className="text-3xl font-bold text-white tracking-widest">PLATINUM</h3>
+              <h3 className="text-3xl font-bold text-white tracking-widest">TITLE SPONSOR</h3>
               <Trophy className="w-8 h-8 text-cyan-400" />
             </div>
             
             <div className="flex flex-wrap justify-center gap-8">
               {[
-                { name: "Your logo here", logo: null, url: "#" },
+                { name: "Thales", logo: "/sponsors/sponsor_thales.png", url: "https://www.thalesgroup.com/en" },
               ].map((sponsor, i) => (
-                <div
-                  key={i}
-                  onMouseEnter={() => setHoveredSponsor(`platinum-${i}`)}
-                  onMouseLeave={() => setHoveredSponsor(null)}
-                  className={`group relative w-full md:w-[600px] rounded-3xl border border-cyan-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:rotate-1 hover:border-cyan-400 hover:shadow-[0_0_60px_rgba(34,211,238,0.5),0_0_100px_rgba(139,92,246,0.3)] overflow-hidden`}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" style={{ animation: 'shimmer 2s infinite' }} />
-                  </div>
+                <div key={i} className="relative group">
+                  {/* Outer Glow Effect - Behind the card */}
+                  <div className="absolute -inset-8 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 rounded-3xl opacity-0 group-hover:opacity-70 blur-3xl transition-all duration-500 -z-10" />
                   
-                  {/* Aspect Ratio Replacement */}
-                  <div className="aspect-video relative w-full flex items-center justify-center p-10">
-                    {sponsor.logo ? (
-                      <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
-                        <img src={sponsor.logo} alt={sponsor.name} className="max-h-32 w-auto object-contain group-hover:scale-110 transition-transform duration-500" />
-                      </a>
-                    ) : (
-                      <span className="text-3xl font-bold text-slate-300 group-hover:text-white group-hover:scale-110 transition-all duration-500 relative">
-                        <span className="absolute inset-0 text-cyan-400 opacity-0 group-hover:opacity-30 blur-sm">{sponsor.name}</span>
-                        <span className="relative">{sponsor.name}</span>
-                      </span>
-                    )}
-                  </div>
-                  
-                  {/* Corner Icon */}
-                  <div className="absolute top-4 right-4 opacity-50 group-hover:opacity-100 group-hover:rotate-12 group-hover:scale-125 transition-all duration-500">
-                    <Trophy className="w-6 h-6 text-cyan-500 group-hover:text-cyan-300" />
-                  </div>
-                  
-                  {/* Animated Corner Accents */}
-                  <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-cyan-400/0 group-hover:border-cyan-400/80 transition-all duration-500 rounded-tl-3xl" />
-                  <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-cyan-400/0 group-hover:border-cyan-400/80 transition-all duration-500 rounded-br-3xl" />
+                  <a
+                    href={sponsor.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onMouseEnter={() => setHoveredSponsor(`title-${i}`)}
+                    onMouseLeave={() => setHoveredSponsor(null)}
+                    className={`relative w-full md:w-[700px] lg:w-[800px] rounded-3xl border border-cyan-500/30 bg-slate-900 backdrop-blur-md transition-all duration-500 group-hover:scale-105 group-hover:rotate-1 group-hover:border-cyan-400 cursor-pointer block overflow-hidden`}
+                  >
+                    {/* Very subtle inner shimmer only */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/3 to-transparent animate-shimmer" style={{ animation: 'shimmer 2s infinite' }} />
+                    </div>
+                    
+                    {/* Logo and Description */}
+                    <div className="relative z-10 w-full p-12 space-y-8">
+                      {sponsor.logo ? (
+                        <div className="flex justify-center">
+                          <img src={sponsor.logo} alt={sponsor.name} className="max-h-40 w-auto object-contain group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                      ) : (
+                        <span className="text-3xl font-bold text-slate-300 group-hover:text-white group-hover:scale-110 transition-all duration-500 relative block text-center">
+                          <span className="relative">{sponsor.name}</span>
+                        </span>
+                      )}
+                      
+                      {/* Description */}
+                      <div className="relative z-10 text-slate-300 text-sm leading-relaxed text-center max-w-2xl mx-auto">
+                        <p>Thales Group is a global technology leader in aerospace, defense, security, and digital markets, providing critical systems, products, and services for national security, aviation, space, and cybersecurity, focusing on digital and "deep tech" like AI, big data, and quantum to keep people safe, connected, and protected.</p>
+                        <p className="mt-3">They design, develop, and manufacture complex solutions, including aircraft systems, defense equipment, cybersecurity software, space technologies, and identity management for government and commercial clients worldwide.</p>
+                      </div>
+                    </div>
+                    
+                    {/* Corner Icon */}
+                    <div className="absolute top-4 right-4 z-20 opacity-50 group-hover:opacity-100 group-hover:rotate-12 group-hover:scale-125 transition-all duration-500">
+                      <Trophy className="w-6 h-6 text-cyan-500 group-hover:text-cyan-300" />
+                    </div>
+                    
+                    {/* Animated Corner Accents */}
+                    <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-cyan-400/0 group-hover:border-cyan-400/80 transition-all duration-500 rounded-tl-3xl z-20" />
+                    <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-cyan-400/0 group-hover:border-cyan-400/80 transition-all duration-500 rounded-br-3xl z-20" />
+                  </a>
                 </div>
               ))}
             </div>
@@ -1509,16 +1524,16 @@ const WhiteHoleHero: React.FC = () => {
            />
         </div>
 
-        {/* 2. PRESENTED BY */}
+        {/* 2. POWERED BY */}
         <div className="flex flex-col items-center md:items-end gap-2 mb-8 pr-2">
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-400">
-            Presented By
+            POWERED BY
           </p>
-          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
+          <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group">
              <img 
-               src="/redshifted-logo.png" 
-               alt="Redshifted Logo" 
-               className="h-8 md:h-12 w-auto opacity-90 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
+               src="/sponsors/sponsor_thales.png" 
+               alt="Thales Logo" 
+               className="h-8 md:h-7 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
              />
           </a>
         </div>
