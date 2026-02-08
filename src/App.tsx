@@ -304,7 +304,7 @@ const Hero: React.FC = () => {
         {/* 1. CATALYST LOGO */}
         <div className="relative group mb-6">
            <img 
-             src="/src/assets/catalystlogo.png" 
+             src="/catalystlogo.png" 
              alt="Catalyst Logo" 
              className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]"
            />
@@ -317,7 +317,7 @@ const Hero: React.FC = () => {
           </p>
           <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
              <img 
-               src="/src/assets/redshifted-logo.png" 
+               src="/redshifted-logo.png" 
                alt="Redshifted Logo" 
                className="h-8 md:h-12 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
              />
