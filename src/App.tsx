@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
                   {item.label}
                 </a>
               ))}
-              <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer">
+              <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" title="SIGN UP HERE!!!">
               <button className="bg-white text-slate-900 hover:bg-cyan-400 hover:text-black px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 cursor-pointer">
                 Register Now
               </button>
@@ -119,7 +119,7 @@ const Hero: React.FC = () => {
   // --- 1. COUNTDOWN LOGIC ---
   const calculateTimeLeft = () => {
     // Target: March 7, 2026 (EST assumed based on Ottawa location)
-    const difference = +new Date("2026-03-07T09:00:00") - +new Date();
+    const difference = +new Date("2026-03-07T08:00:00") - +new Date();
     
     if (difference > 0) {
       return {
@@ -133,20 +133,12 @@ const Hero: React.FC = () => {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
-
-  // --- 2. CONFETTI LOGIC ---
-  // Stop rendering confetti after 5 seconds to save resources
-  useEffect(() => {
-    const timer = setTimeout(() => setShowConfetti(false), 5000);
-    return () => clearTimeout(timer);
   }, []);
 
   // --- FLOATING DEBRIS CONFIG ---
@@ -165,7 +157,6 @@ const Hero: React.FC = () => {
     const randomized = debrisItems.map((item) => ({
       ...item,
       startY: Math.floor(Math.random() * 80 + 10), 
-      delay: Math.random() * 5,
       duration: 5 + Math.random() * 3
     }));
     setItems(randomized);
@@ -176,18 +167,6 @@ const Hero: React.FC = () => {
       
       {/* --- CSS ENGINE --- */}
       <style>{`
-        /* 1. Confetti Animation */
-        @keyframes confetti-fall {
-          0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-        .confetti-piece {
-          position: absolute;
-          top: -10px;
-          width: 10px;
-          height: 10px;
-          animation: confetti-fall 4s linear forwards;
-        }
 
         /* 2. Existing Physics (Black Hole & Debris) */
         @keyframes texture-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -214,25 +193,6 @@ const Hero: React.FC = () => {
           background: repeating-conic-gradient(from 0deg, rgba(0,0,0,0.1) 0deg, transparent 5deg, rgba(0,0,0,0.3) 10deg, transparent 15deg);
         }
       `}</style>
-
-      {/* --- CONFETTI OVERLAY (Only shows on mount) --- */}
-      {showConfetti && (
-        <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden">
-          {Array.from({ length: 50 }).map((_, i) => (
-            <div
-              key={i}
-              className="confetti-piece"
-              style={{
-                left: `${Math.random() * 100}%`,
-                backgroundColor: ['#22d3ee', '#a855f7', '#f97316', '#ffffff'][Math.floor(Math.random() * 4)],
-                animationDelay: `${Math.random() * 2}s`,
-                width: `${Math.random() * 8 + 4}px`,
-                height: `${Math.random() * 12 + 6}px`,
-              }}
-            />
-          ))}
-        </div>
-      )}
 
       {/* --- BACKGROUND LAYER --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -293,12 +253,12 @@ const Hero: React.FC = () => {
       <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center md:items-start text-center md:text-left">
         
         {/* Status Badge - Updated for Launch Day */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-green-500/30 mb-8 animate-float shadow-[0_0_20px_rgba(34,197,94,0.2)] hover:border-green-400 transition-colors cursor-default">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-green-500/30 mb-8 shadow-[0_0_20px_rgba(34,197,94,0.2)] hover:border-green-400 transition-colors cursor-default">
           <span className="flex h-2 w-2 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
-          <span className="text-green-100 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Systems Online</span>
+          <span className="text-green-100 text-xs md:text-sm font-bold tracking-[0.2em] uppercase cursor-pointer">Systems Online</span>
         </div>
 
         {/* 1. CATALYST LOGO */}
@@ -315,7 +275,7 @@ const Hero: React.FC = () => {
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-500">
             Presented By
           </p>
-          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
+          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group" title="The team that made this event possible!">
              <img 
                src="/redshifted-logo.png" 
                alt="Redshifted Logo" 
@@ -350,8 +310,8 @@ const Hero: React.FC = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pl-1">
-          <a href="http://tiny.cc/catalyst-hack" className="w-full sm:w-auto">
-            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)]">
+          <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer"  className="w-full sm:w-auto " title="SIGN UP HERE!!!">
+            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)] cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
@@ -359,8 +319,8 @@ const Hero: React.FC = () => {
             </button>
           </a>
           
-          <a href="#faq" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2">
+          <a href="#faq" className="w-full sm:w-auto" title="View the event schedule!">
+            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2 cursor-pointer">
               View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
             </button>
           </a>
@@ -369,12 +329,18 @@ const Hero: React.FC = () => {
         {/* Logistics */}
         <div className="w-full md:w-auto border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-8 flex justify-center md:justify-start">
           <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
+            <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Redshifted+Catalyst+-+Canada%27s+First+Hardware+Hackathon+for+High+Schoolers&dates=20260307T130000Z/20260308T030000Z&details=Ever+wanted+to+actually+BUILD+something+cool%3F%0ARedshifted+Catalyst+is+Canada%27s+FIRST+hardware+hackathon+for+high+schoolers%2C+and+it%27s+going+to+be+insane.+Forget+coding+on+a+screen+all+day+-+this+is+about+designing+and+building+real%2C+physical+hardware+projects+with+your+hands.%0A%0AYou%27ll+team+up+with+other+students%2C+get+access+to+tools+and+hardware+%28like+ESP32%29%2C+and+make+something+from+scratch.%0A%0AFREE+%28no+cost+%2B+free+food+%2B+free+merch+%2B+prizes%29%0A%0ASign+up+here%3A+http%3A%2F%2Ftiny.cc%2Fcatalyst-build&location=STEM+Complex%2C+uOttawa%2C+150+Louis-Pasteur+Private"
+              title="Add to Google Calendar!"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all group shadow-lg">
             <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
-              <Calendar className="w-4 h-4 text-orange-400" />
+              <Calendar className="w-4 h-4 text-orange-400 group-hover:animate-bounce" />
               <span className="text-slate-200">Saturday, March 7th, 2026</span>
             </div>
-            
+            </a>
             <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
+              title="View the location we're hosting at!"
                target="_blank" 
                rel="noopener noreferrer"
                className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all group shadow-lg"
@@ -624,7 +590,7 @@ const FlightPaths: React.FC = () => {
             </div>
 
             {/* Bottom Button */}
-            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7' target="_blank" rel="noopener noreferrer">
+            <a href='http://tiny.cc/catalyst-hack' target="_blank" rel="noopener noreferrer" title="SIGN UP HERE!!!">
             <button className="mt-auto w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-cyan-400 group-hover:text-black cursor-pointer">
               Start Cadet Track <ArrowRight className="w-5 h-5" />
             </button>
@@ -680,7 +646,7 @@ const FlightPaths: React.FC = () => {
             </div>
 
             {/* Bottom Button */}
-            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7' target="_blank" rel="noopener noreferrer">
+            <a href='http://tiny.cc/catalyst-hack' target="_blank" rel="noopener noreferrer" title="SIGN UP HERE!!!">
             <button className="mt-auto w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-purple-400 group-hover:text-black cursor-pointer">
               Start Commander Track <ArrowRight className="w-5 h-5" />
             </button>
@@ -933,7 +899,7 @@ const Sponsors: React.FC = () => {
                   key={i}
                   onMouseEnter={() => setHoveredSponsor(`platinum-${i}`)}
                   onMouseLeave={() => setHoveredSponsor(null)}
-                  className={`group relative w-full md:w-[600px] rounded-3xl border border-cyan-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:rotate-1 hover:border-cyan-400 hover:shadow-[0_0_60px_rgba(34,211,238,0.5),0_0_100px_rgba(139,92,246,0.3)] overflow-hidden`}
+                  className={`group relative w-full md:w-[600px] rounded-3xl border border-cyan-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:rotate-1 hover:border-cyan-400 hover:shadow-[0_0_60px_rgba(34,211,238,0.5),0_0_100px_rgba(139,92,246,0.3)] overflow-hidden cursor-pointer`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -983,7 +949,7 @@ const Sponsors: React.FC = () => {
               ].map((sponsor, i) => (
                 <div
                   key={i}
-                  className="group relative w-full sm:w-[350px] rounded-2xl border border-yellow-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-yellow-400 hover:shadow-[0_0_20px_rgba(234,179,8,0.2)] overflow-hidden"
+                  className="group relative w-full sm:w-[350px] rounded-2xl border border-yellow-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-yellow-400 hover:shadow-[0_0_20px_rgba(234,179,8,0.2)] overflow-hidden cursor-pointer"
                 >
                   {sponsor.url ? (
                     <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
@@ -1037,7 +1003,7 @@ const Sponsors: React.FC = () => {
                     bg-gradient-to-br from-slate-500/10 via-slate-900/40 to-slate-900/40 
                     backdrop-blur-xl 
                     hover:border-slate-400/80 transition-all hover:scale-105 overflow-hidden
-                    aspect-video flex items-center justify-center
+                    aspect-video flex items-center justify-center cursor-pointer
                     ${getHoverClasses(`silver-${i}`)}
                   `}
                 >
@@ -1093,7 +1059,7 @@ const Sponsors: React.FC = () => {
                     rounded-xl border border-orange-500/20 
                     bg-slate-900/30 backdrop-blur-sm 
                     hover:border-orange-500/40 transition-all hover:scale-105 overflow-hidden
-                    aspect-video flex items-center justify-center
+                    aspect-video flex items-center justify-center cursor-pointer
                     ${getHoverClasses(`bronze-${i}`)}
                   `}
                 >
@@ -1132,8 +1098,8 @@ const Sponsors: React.FC = () => {
                     rounded-2xl border-2 border-slate-600/40 
                     bg-gradient-to-br from-slate-700/20 via-slate-900/40 to-slate-900/40 
                     backdrop-blur-xl 
-                    hover:border-slate-400/80 transition-all hover:scale-105 overflow-hidden
-                    aspect-video flex items-center justify-center
+                    hover:border-slate-400/80 transition-all hove r:scale-105 overflow-hidden
+                    aspect-video flex items-center justify-center cursor-pointer
                     ${getHoverClasses(`community-${i}`)}
                   `}
                 >
@@ -1232,7 +1198,7 @@ const Footer: React.FC = () => {
       <div className="max-w-6xl mx-auto text-amber-50">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer">
+            <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" title="The team that made it possible!">
               <img src="/redshifted-logo.png" alt="Redshifted Logo" className="w-64 mb-2" />
             </a>
             <p className="text-background/80">
@@ -1272,6 +1238,7 @@ const Footer: React.FC = () => {
             <div className="flex gap-4">
               <a
                 href="https://instagram.com/redshifted.ottawa"
+                title="Our Instagram!"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-background/10 p-3 rounded-full hover:bg-primary transition-colors"
@@ -1283,6 +1250,7 @@ const Footer: React.FC = () => {
                 href="mailto:programs@redshifted.ca"
                 className="bg-background/10 p-3 rounded-full hover:bg-primary transition-colors"
                 aria-label="Email"
+                title="Questions? Email us!"
               >
                 <Mail className="w-5 h-5" />
               </a>
@@ -1326,8 +1294,7 @@ const WhiteHoleHero: React.FC = () => {
       
       return {
         ...item,
-        endY: basePos + noise, // The destination Y coordinate
-        delay: Math.random() * 4,
+        endY: basePos + noise, // The destination Y coordinate  
         duration: 5 + Math.random() * 2
       };
     });
@@ -1482,12 +1449,12 @@ const WhiteHoleHero: React.FC = () => {
       <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center md:items-end text-center md:text-right">
         
         {/* Status Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-cyan-400/50 mb-8 animate-float shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:border-white transition-colors cursor-default">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/60 backdrop-blur-md border border-cyan-400/50 mb-8 shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:border-white transition-colors cursor-default">
           <span className="flex h-2 w-2 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
           </span>
-          <span className="text-cyan-50 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Event Genesis</span>
+          <span className="text-cyan-50 text-xs md:text-sm font-bold tracking-[0.2em] uppercase cursor-pointer">Event Genesis</span>
         </div>
 
         {/* 1. LOGO */}
@@ -1505,7 +1472,7 @@ const WhiteHoleHero: React.FC = () => {
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-400">
             Presented By
           </p>
-          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
+          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group" title="The team that made the event possible!">
              <img 
                src="/redshifted-logo.png" 
                alt="Redshifted Logo" 
@@ -1522,7 +1489,7 @@ const WhiteHoleHero: React.FC = () => {
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pr-1">
           <div className="w-full sm:w-auto">
-            <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+            <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto" title="SIGN UP HERE!!!">
               <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,255,0.5)] cursor-pointer">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-200 to-white opacity-40 group-hover:opacity-60 transition-opacity"></div>
                 <span className="relative z-10 flex items-center justify-center gap-2">
@@ -1532,7 +1499,7 @@ const WhiteHoleHero: React.FC = () => {
             </a>
           </div>
           
-          <a href="#faq" className="w-full sm:w-auto">
+          <a href="#faq" className="w-full sm:w-auto" title="View the event schedule!">
             <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/20 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/50 transition-all flex items-center justify-center gap-2 cursor-pointer">
               View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
             </button>
@@ -1542,12 +1509,20 @@ const WhiteHoleHero: React.FC = () => {
         {/* Logistics */}
         <div className="w-full md:w-auto border-t md:border-t-0 md:border-r border-white/10 pt-8 md:pt-0 md:pr-8 flex justify-center md:justify-end">
           <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
+            <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Redshifted+Catalyst+-+Canada%27s+First+Hardware+Hackathon+for+High+Schoolers&dates=20260307T130000Z/20260308T030000Z&details=Ever+wanted+to+actually+BUILD+something+cool%3F%0ARedshifted+Catalyst+is+Canada%27s+FIRST+hardware+hackathon+for+high+schoolers%2C+and+it%27s+going+to+be+insane.+Forget+coding+on+a+screen+all+day+-+this+is+about+designing+and+building+real%2C+physical+hardware+projects+with+your+hands.%0A%0AYou%27ll+team+up+with+other+students%2C+get+access+to+tools+and+hardware+%28like+ESP32%29%2C+and+make+something+from+scratch.%0A%0AFREE+%28no+cost+%2B+free+food+%2B+free+merch+%2B+prizes%29%0A%0ASign+up+here%3A+http%3A%2F%2Ftiny.cc%2Fcatalyst-build&location=STEM+Complex%2C+uOttawa%2C+150+Louis-Pasteur+Private"
+              title="Add to Google Calendar!"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all group shadow-lg">
             <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
-              <Calendar className="w-4 h-4 text-cyan-300" />
+              <Calendar className="w-4 h-4 text-cyan-300 group-hover:animate-bounce" />
               <span className="text-slate-200">Saturday, March 7th, 2026</span>
             </div>
+            </a>
+            
             
             <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
+               title="View the location we're hosting at!"
                target="_blank" 
                rel="noopener noreferrer"
                className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-cyan-400/50 transition-all group shadow-lg"
