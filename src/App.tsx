@@ -40,11 +40,27 @@ const CryptoText: React.FC<{ pattern: string; className?: string }> = ({ pattern
 */}
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrollOpacity, setScrollOpacity] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const startFade = windowHeight * 0.25; // Start at 1/4 page
+      const endFade = windowHeight * 0.5; // Fully opaque at 1/2 page
+      
+      if (scrollY < startFade) {
+        setScrollOpacity(0);
+      } else if (scrollY > endFade) {
+        setScrollOpacity(1);
+      } else {
+        const opacity = (scrollY - startFade) / (endFade - startFade);
+        setScrollOpacity(opacity);
+      }
+    };
+    
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Call once on mount
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -56,37 +72,63 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav 
+      className="fixed w-full z-50 transition-all duration-300 border-b"
+      style={{
+        background: `linear-gradient(to right, rgba(15, 23, 42, ${0.98 * scrollOpacity}), rgba(8, 47, 73, ${0.95 * scrollOpacity}), rgba(15, 23, 42, ${0.98 * scrollOpacity}))`,
+        backdropFilter: scrollOpacity > 0 ? 'blur(12px)' : 'none',
+        borderColor: `rgba(34, 211, 238, ${0.5 * scrollOpacity})`,
+        boxShadow: scrollOpacity > 0 ? `0 0 ${60 * scrollOpacity}px rgba(34, 211, 238, ${0.3 * scrollOpacity}), 0 -10px ${60 * scrollOpacity}px rgba(139, 92, 246, ${0.2 * scrollOpacity})` : 'none',
+      }}
+    >
+      {/* Animated gradient overlay - only when scrolled */}
+      {scrollOpacity > 0 && (
+        <div 
+          className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/15 to-cyan-500/10 animate-pulse pointer-events-none" 
+          style={{ opacity: scrollOpacity, animationDuration: '3s' }} 
+        />
+      )}
+      
+      <div className="w-full px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex items-center justify-between h-20">
-          <div className="flex items-center gap-2">
-            <a href="#" className="flex items-center">
-            <div className="p-2 bg-gradient-to-tr from-cyan-500 to-purple-600 rounded-lg">
-              <Rocket className="h-10 w-10   text-white" />
-            </div>
+          {/* Left: Catalyst Logo */}
+          <a href="#" className="group flex items-center relative">
+            {/* Subtle white glow effect behind logo - contained */}
+            <div className="absolute inset-0 bg-white/30 blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-300 rounded-full scale-90" />
             <img 
               src="/catalystlogo.png" 
               alt="Catalyst logo" 
-              className="h-10 md:h-14 w-auto object-contain" 
+              className="h-14 md:h-20 w-auto object-contain relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] transition-all duration-300" 
             />
-            </a>
-          </div>
+          </a>
           
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              {navItems.map((item) => (
-                <a key={item.label} href={item.href} className="text-slate-300 hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                  {item.label}
-                </a>
-              ))}
-              <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer">
-              <button className="bg-white text-slate-900 hover:bg-cyan-400 hover:text-black px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 cursor-pointer">
+          {/* Center: Nav Items */}
+          <div className="hidden md:flex items-baseline space-x-8 absolute left-1/2 transform -translate-x-1/2">
+            {navItems.map((item) => (
+              <a key={item.label} href={item.href} className="text-slate-200 hover:text-cyan-300 transition-colors px-3 py-2 rounded-md text-sm font-medium relative group">
+                {item.label}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-500 group-hover:w-full transition-all duration-300 shadow-[0_0_10px_rgba(34,211,238,0.8)]"></span>
+              </a>
+            ))}
+            <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer">
+              <button className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white hover:from-cyan-400 hover:to-purple-500 px-5 py-2 rounded-full font-bold transition-all transform hover:scale-110 shadow-[0_0_25px_rgba(34,211,238,0.5)] hover:shadow-[0_0_35px_rgba(34,211,238,0.8)] cursor-pointer">
                 Register Now
               </button>
-              </a>
-            </div>
+            </a>
           </div>
 
+          {/* Right: Redshifted Logo (Desktop) */}
+          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="hidden md:block group relative">
+            {/* Glow effect behind Redshifted logo */}
+            <div className="absolute -inset-3 bg-white/20 blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+            <img 
+              src="/redshifted-logo.png" 
+              alt="Redshifted logo" 
+              className="h-8 md:h-10 w-auto object-contain opacity-90 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all duration-300" 
+            />
+          </a>
+
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-cyan-400 cursor-pointer">
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
