@@ -364,7 +364,7 @@ const Hero: React.FC = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pl-1">
-          <a href="http://tiny.cc/catalyst-hack" className="w-full sm:w-auto">
+          <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
             <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)]">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
@@ -638,7 +638,7 @@ const FlightPaths: React.FC = () => {
             </div>
 
             {/* Bottom Button */}
-            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7' target="_blank" rel="noopener noreferrer">
+            <a href='http://tiny.cc/catalyst-build' target="_blank" rel="noopener noreferrer">
             <button className="mt-auto w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-cyan-400 group-hover:text-black cursor-pointer">
               Start Cadet Track <ArrowRight className="w-5 h-5" />
             </button>
@@ -694,7 +694,7 @@ const FlightPaths: React.FC = () => {
             </div>
 
             {/* Bottom Button */}
-            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7' target="_blank" rel="noopener noreferrer">
+            <a href='http://tiny.cc/catalyst-build' target="_blank" rel="noopener noreferrer">
             <button className="mt-auto w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-purple-400 group-hover:text-black cursor-pointer">
               Start Commander Track <ArrowRight className="w-5 h-5" />
             </button>
