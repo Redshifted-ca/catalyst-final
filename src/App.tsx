@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
                   {item.label}
                 </a>
               ))}
-              <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" title="SIGN UP HERE!!!">
+              <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer">
               <button className="bg-white text-slate-900 hover:bg-cyan-400 hover:text-black px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 cursor-pointer">
                 Register Now
               </button>
@@ -275,7 +275,7 @@ const Hero: React.FC = () => {
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-500">
             Presented By
           </p>
-          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group" title="The team that made this event possible!">
+          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
              <img 
                src="/redshifted-logo.png" 
                alt="Redshifted Logo" 
@@ -310,7 +310,7 @@ const Hero: React.FC = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pl-1">
-          <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer"  className="w-full sm:w-auto " title="SIGN UP HERE!!!">
+          <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer"  className="w-full sm:w-auto ">
             <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)] cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
@@ -319,7 +319,7 @@ const Hero: React.FC = () => {
             </button>
           </a>
           
-          <a href="#faq" className="w-full sm:w-auto" title="View the event schedule!">
+          <a href="#faq" className="w-full sm:w-auto">
             <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2 cursor-pointer">
               View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
             </button>
@@ -340,7 +340,6 @@ const Hero: React.FC = () => {
             </div>
             </a>
             <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
-              title="View the location we're hosting at!"
                target="_blank" 
                rel="noopener noreferrer"
                className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all group shadow-lg"
@@ -590,7 +589,7 @@ const FlightPaths: React.FC = () => {
             </div>
 
             {/* Bottom Button */}
-            <a href='http://tiny.cc/catalyst-hack' target="_blank" rel="noopener noreferrer" title="SIGN UP HERE!!!">
+            <a href='http://tiny.cc/catalyst-hack' target="_blank" rel="noopener noreferrer">
             <button className="mt-auto w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-cyan-400 group-hover:text-black cursor-pointer">
               Start Cadet Track <ArrowRight className="w-5 h-5" />
             </button>
@@ -646,7 +645,7 @@ const FlightPaths: React.FC = () => {
             </div>
 
             {/* Bottom Button */}
-            <a href='http://tiny.cc/catalyst-hack' target="_blank" rel="noopener noreferrer" title="SIGN UP HERE!!!">
+            <a href='http://tiny.cc/catalyst-hack' target="_blank" rel="noopener noreferrer">
             <button className="mt-auto w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-purple-400 group-hover:text-black cursor-pointer">
               Start Commander Track <ArrowRight className="w-5 h-5" />
             </button>
@@ -1198,7 +1197,7 @@ const Footer: React.FC = () => {
       <div className="max-w-6xl mx-auto text-amber-50">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" title="The team that made it possible!">
+            <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer">
               <img src="/redshifted-logo.png" alt="Redshifted Logo" className="w-64 mb-2" />
             </a>
             <p className="text-background/80">
@@ -1238,7 +1237,6 @@ const Footer: React.FC = () => {
             <div className="flex gap-4">
               <a
                 href="https://instagram.com/redshifted.ottawa"
-                title="Our Instagram!"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-background/10 p-3 rounded-full hover:bg-primary transition-colors"
@@ -1250,7 +1248,6 @@ const Footer: React.FC = () => {
                 href="mailto:programs@redshifted.ca"
                 className="bg-background/10 p-3 rounded-full hover:bg-primary transition-colors"
                 aria-label="Email"
-                title="Questions? Email us!"
               >
                 <Mail className="w-5 h-5" />
               </a>
@@ -1472,7 +1469,7 @@ const WhiteHoleHero: React.FC = () => {
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-400">
             Presented By
           </p>
-          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group" title="The team that made the event possible!">
+          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
              <img 
                src="/redshifted-logo.png" 
                alt="Redshifted Logo" 
@@ -1489,7 +1486,7 @@ const WhiteHoleHero: React.FC = () => {
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pr-1">
           <div className="w-full sm:w-auto">
-            <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto" title="SIGN UP HERE!!!">
+            <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
               <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,255,0.5)] cursor-pointer">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-200 to-white opacity-40 group-hover:opacity-60 transition-opacity"></div>
                 <span className="relative z-10 flex items-center justify-center gap-2">
@@ -1499,7 +1496,7 @@ const WhiteHoleHero: React.FC = () => {
             </a>
           </div>
           
-          <a href="#faq" className="w-full sm:w-auto" title="View the event schedule!">
+          <a href="#faq" className="w-full sm:w-auto">
             <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/20 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/50 transition-all flex items-center justify-center gap-2 cursor-pointer">
               View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
             </button>
@@ -1522,7 +1519,6 @@ const WhiteHoleHero: React.FC = () => {
             
             
             <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
-               title="View the location we're hosting at!"
                target="_blank" 
                rel="noopener noreferrer"
                className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-cyan-400/50 transition-all group shadow-lg"
