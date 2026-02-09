@@ -73,11 +73,11 @@ const Navbar: React.FC = () => {
 
   return (
     <nav 
-      className="fixed w-full z-50 transition-all duration-300 border-b"
+      className="fixed w-full z-50 transition-all duration-300"
       style={{
-        background: `linear-gradient(to right, rgba(15, 23, 42, ${0.98 * scrollOpacity}), rgba(8, 47, 73, ${0.95 * scrollOpacity}), rgba(15, 23, 42, ${0.98 * scrollOpacity}))`,
+        background: scrollOpacity > 0 ? `linear-gradient(to right, rgba(15, 23, 42, ${0.98 * scrollOpacity}), rgba(8, 47, 73, ${0.95 * scrollOpacity}), rgba(15, 23, 42, ${0.98 * scrollOpacity}))` : 'transparent',
         backdropFilter: scrollOpacity > 0 ? 'blur(12px)' : 'none',
-        borderColor: `rgba(34, 211, 238, ${0.5 * scrollOpacity})`,
+        borderBottom: scrollOpacity > 0 ? `1px solid rgba(34, 211, 238, ${0.5 * scrollOpacity})` : 'none',
         boxShadow: scrollOpacity > 0 ? `0 0 ${60 * scrollOpacity}px rgba(34, 211, 238, ${0.3 * scrollOpacity}), 0 -10px ${60 * scrollOpacity}px rgba(139, 92, 246, ${0.2 * scrollOpacity})` : 'none',
       }}
     >
@@ -98,7 +98,7 @@ const Navbar: React.FC = () => {
             <img 
               src="/catalystlogo.png" 
               alt="Catalyst logo" 
-              className="h-14 md:h-20 w-auto object-contain relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] transition-all duration-300" 
+              className="h-12 md:h-16 w-auto object-contain relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] transition-all duration-300" 
             />
           </a>
           
