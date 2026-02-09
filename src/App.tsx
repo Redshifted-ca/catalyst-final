@@ -650,8 +650,8 @@ const FlightPaths: React.FC = () => {
             
             {/* Text Header */}
             <div className="p-8 pb-4 text-center">
-              <h3 className="text-2xl font-bold text-white mb-2">Commander Track - Climax of your MC energy.</h3>
-              <p className="text-slate-400 italic">For epic, self-guided deep space exploration. Beat the universe's challenge.</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Commander Track - Above and Beyond.</h3>
+              <p className="text-slate-400 italic">For epic, primarily self-guided deep exploration into hardware. Beat the universe's challenge.</p>
             </div>
 
             {/* The "Graphic Poster" Area */}
@@ -925,7 +925,7 @@ const Sponsors: React.FC = () => {
             OUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">PARTNERS</span>
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Powering the next generation of space exploration and innovation.
+            Powering the next generation of engineers and innovation.
           </p>
         </div>
         
