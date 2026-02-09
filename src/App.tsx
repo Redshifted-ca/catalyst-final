@@ -323,14 +323,14 @@ const Hero: React.FC = () => {
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-500">
             POWERED BY
           </p>
-          <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group">
-            <div className="bg-white/10 backdrop-blur-sm p-1.5 rounded-xl transition-all duration-300">
-              <img 
-                src="/sponsors/sponsor_thales_alt.jpg" 
-                alt="Thales Logo" 
-                className="h-24 md:h-32 w-auto opacity-95 group-hover:opacity-100 group-hover:brightness-110 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300 rounded-lg"
-              />
-            </div>
+          <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group relative">
+            {/* Background halo */}
+            <div className="absolute -inset-4 bg-white/5 blur-2xl rounded-full opacity-60 group-hover:opacity-100 group-hover:bg-white/10 transition-all duration-300"></div>
+            <img 
+              src="/sponsors/sponsor_thales.png" 
+              alt="Thales Logo" 
+              className="relative h-6 md:h-8 w-auto opacity-95 group-hover:opacity-100 group-hover:brightness-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.9)] transition-all duration-300"
+            />
           </a>
         </div>
 
@@ -941,7 +941,7 @@ const Sponsors: React.FC = () => {
             
             <div className="flex flex-wrap justify-center gap-8">
               {[
-                { name: "Thales", logo: "/sponsors/sponsor_thales_alt.jpg", url: "https://www.thalesgroup.com/en" },
+                { name: "Thales", logo: "/sponsors/sponsor_thales.png", url: "https://www.thalesgroup.com/en" },
               ].map((sponsor, i) => (
                 <div key={i} className="relative group">
                   {/* Outer Glow Effect - Behind the card with pulse animation */}
@@ -964,9 +964,7 @@ const Sponsors: React.FC = () => {
                     <div className="relative z-10 w-full p-12 space-y-8">
                       {sponsor.logo ? (
                         <div className="flex justify-center">
-                          <div className="bg-white/10 backdrop-blur-sm p-2 rounded-2xl transition-all duration-500">
-                            <img src={sponsor.logo} alt={sponsor.name} className="max-h-36 md:max-h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-500 rounded-xl" />
-                          </div>
+                          <img src={sponsor.logo} alt={sponsor.name} className="max-h-12 md:max-h-14 w-auto object-contain group-hover:scale-105 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500" />
                         </div>
                       ) : (
                         <span className="text-3xl font-bold text-slate-300 group-hover:text-white group-hover:scale-110 transition-all duration-500 relative block text-center">
@@ -1549,14 +1547,14 @@ const WhiteHoleHero: React.FC = () => {
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-400">
             POWERED BY
           </p>
-          <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group">
-            <div className="bg-white/10 backdrop-blur-sm p-1.5 rounded-xl transition-all duration-300">
-              <img 
-                src="/sponsors/sponsor_thales_alt.jpg" 
-                alt="Thales Logo" 
-                className="h-24 md:h-32 w-auto opacity-95 group-hover:opacity-100 group-hover:brightness-110 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300 rounded-lg"
-              />
-            </div>
+          <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group relative">
+            {/* Background halo */}
+            <div className="absolute -inset-4 bg-white/5 blur-2xl rounded-full opacity-60 group-hover:opacity-100 group-hover:bg-white/10 transition-all duration-300"></div>
+            <img 
+              src="/sponsors/sponsor_thales.png" 
+              alt="Thales Logo" 
+              className="relative h-6 md:h-8 w-auto opacity-95 group-hover:opacity-100 group-hover:brightness-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.9)] transition-all duration-300"
+            />
           </a>
         </div>
 
