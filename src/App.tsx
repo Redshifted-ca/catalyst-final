@@ -239,12 +239,14 @@ const Hero: React.FC = () => {
         }
         @keyframes converge {
           0% { left: -150px; top: var(--start-y); transform: scale(1) rotate(0deg); opacity: 0; }
+          5% { opacity: 0; }
           10% { opacity: 1; }
           60% { left: 60%; top: var(--start-y); transform: scale(0.8) rotate(180deg); }
           100% { left: 80%; top: 50%; transform: scale(0) rotate(720deg); opacity: 0; }
         }
         .debris-item {
           position: absolute;
+          opacity: 0;
           animation-name: converge;
           animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
           animation-iteration-count: infinite;
@@ -284,7 +286,7 @@ const Hero: React.FC = () => {
 
       {/* --- FLOATING DEBRIS LAYER --- */}
       <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        {items.map((item, index) => (
+        {items.length > 0 && items.map((item, index) => (
           <img
             key={index}
             src={item.src}
@@ -1418,6 +1420,9 @@ const WhiteHoleHero: React.FC = () => {
             opacity: 0;
             filter: blur(10px) brightness(10); /* Starts as pure light */
           }
+          5% {
+            opacity: 0;
+          }
           10% {
             opacity: 1;
             filter: blur(0px) brightness(2);
@@ -1434,6 +1439,7 @@ const WhiteHoleHero: React.FC = () => {
 
         .eject-item {
           position: absolute;
+          opacity: 0;
           animation-name: eject;
           /* Cubic-bezier for "Explosion": Fast start, slow end */
           animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
@@ -1479,7 +1485,7 @@ const WhiteHoleHero: React.FC = () => {
 
       {/* --- FLOATING DEBRIS LAYER (EJECTED) --- */}
       <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        {items.map((item, index) => (
+        {items.length > 0 && items.map((item, index) => (
           <img
             key={index}
             src={item.src}
