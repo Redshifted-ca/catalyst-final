@@ -1052,7 +1052,7 @@ const Sponsors: React.FC = () => {
             <div className="flex flex-wrap justify-center gap-6 md:gap-8">
               {[
                 { name: "CIRA", logo: "/sponsors/sponsor_cira.png", url: "https://www.cira.ca/en/canadian-shield/" },
-                { name: "Your logo here", logo: null },
+                { name: "Chessmates Ottawa", logo: "/sponsors/sponsor_chessmatesottawa.jpg", url: "https://www.chessmatesottawa.ca/" },
                 { name: "Your logo here", logo: null },
               ].map((sponsor, i) => (
                 <div
@@ -1076,10 +1076,22 @@ const Sponsors: React.FC = () => {
                      {sponsor.logo ? (
                         sponsor.url ? (
                           <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
-                            <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain group-hover:scale-110 transition-transform" />
+                            {sponsor.name === "Chessmates Ottawa" ? (
+                              <div className="relative p-6 rounded-xl border-[1px] border-white bg-white">
+                                <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain group-hover:scale-110 transition-transform" />
+                              </div>
+                            ) : (
+                              <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain group-hover:scale-110 transition-transform" />
+                            )}
                           </a>
                         ) : (
-                          <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
+                          sponsor.name === "Chessmates Ottawa" ? (
+                            <div className="relative p-6 rounded-xl border-[1px] border-white bg-white">
+                              <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
+                            </div>
+                          ) : (
+                            <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
+                          )
                         )
                      ) : (
                         <span className="text-lg font-bold text-slate-400 group-hover:text-white transition-colors">
