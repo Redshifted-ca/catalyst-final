@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Rocket, Calendar, MapPin, Menu, X, ChevronRight, Zap, Star, Box, Hammer, Trophy, Award, TrendingUp, Heart, Plus, Minus, Clock, HelpCircle, Terminal, Instagram, Mail, BookOpen, Wrench, ArrowRight, ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { Rocket, Calendar, MapPin, Menu, X, ChevronRight, Zap, Star, Box, Hammer, Trophy, Award, TrendingUp, Heart, Plus, Minus, Clock, HelpCircle, Terminal, Instagram, Mail, ArrowRight} from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
@@ -40,11 +40,27 @@ const CryptoText: React.FC<{ pattern: string; className?: string }> = ({ pattern
 */}
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrollOpacity, setScrollOpacity] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const startFade = windowHeight * 0.25; // Start at 1/4 page
+      const endFade = windowHeight * 0.5; // Fully opaque at 1/2 page
+      
+      if (scrollY < startFade) {
+        setScrollOpacity(0);
+      } else if (scrollY > endFade) {
+        setScrollOpacity(1);
+      } else {
+        const opacity = (scrollY - startFade) / (endFade - startFade);
+        setScrollOpacity(opacity);
+      }
+    };
+    
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Call once on mount
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -56,37 +72,63 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav 
+      className="fixed w-full z-50 transition-all duration-300"
+      style={{
+        background: scrollOpacity > 0 ? `linear-gradient(to right, rgba(15, 23, 42, ${0.98 * scrollOpacity}), rgba(8, 47, 73, ${0.95 * scrollOpacity}), rgba(15, 23, 42, ${0.98 * scrollOpacity}))` : 'transparent',
+        backdropFilter: scrollOpacity > 0 ? 'blur(12px)' : 'none',
+        borderBottom: scrollOpacity > 0 ? `1px solid rgba(34, 211, 238, ${0.5 * scrollOpacity})` : 'none',
+        boxShadow: scrollOpacity > 0 ? `0 0 ${60 * scrollOpacity}px rgba(34, 211, 238, ${0.3 * scrollOpacity}), 0 -10px ${60 * scrollOpacity}px rgba(139, 92, 246, ${0.2 * scrollOpacity})` : 'none',
+      }}
+    >
+      {/* Animated gradient overlay - only when scrolled */}
+      {scrollOpacity > 0 && (
+        <div 
+          className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/15 to-cyan-500/10 animate-pulse pointer-events-none" 
+          style={{ opacity: scrollOpacity, animationDuration: '3s' }} 
+        />
+      )}
+      
+      <div className="w-full px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex items-center justify-between h-20">
-          <div className="flex items-center gap-2">
-            <a href="#" className="flex items-center">
-            <div className="p-2 bg-gradient-to-tr from-cyan-500 to-purple-600 rounded-lg">
-              <Rocket className="h-10 w-10   text-white" />
-            </div>
+          {/* Left: Catalyst Logo */}
+          <a href="#" className="group flex items-center relative">
+            {/* Subtle white glow effect behind logo - contained */}
+            <div className="absolute inset-0 bg-white/30 blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-300 rounded-full scale-90" />
             <img 
               src="/catalystlogo.png" 
               alt="Catalyst logo" 
-              className="h-10 md:h-14 w-auto object-contain" 
+              className="h-12 md:h-16 w-auto object-contain relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] transition-all duration-300" 
             />
-            </a>
-          </div>
+          </a>
           
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              {navItems.map((item) => (
-                <a key={item.label} href={item.href} className="text-slate-300 hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                  {item.label}
-                </a>
-              ))}
-              <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer">
-              <button className="bg-white text-slate-900 hover:bg-cyan-400 hover:text-black px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 cursor-pointer">
+          {/* Center: Nav Items */}
+          <div className="hidden md:flex items-baseline space-x-8 absolute left-1/2 transform -translate-x-1/2">
+            {navItems.map((item) => (
+              <a key={item.label} href={item.href} className="text-slate-200 hover:text-cyan-300 transition-colors px-3 py-2 rounded-md text-sm font-medium relative group">
+                {item.label}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-500 group-hover:w-full transition-all duration-300 shadow-[0_0_10px_rgba(34,211,238,0.8)]"></span>
+              </a>
+            ))}
+            <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer">
+              <button className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white hover:from-cyan-400 hover:to-purple-500 px-5 py-2 rounded-full font-bold transition-all transform hover:scale-110 shadow-[0_0_25px_rgba(34,211,238,0.5)] hover:shadow-[0_0_35px_rgba(34,211,238,0.8)] cursor-pointer">
                 Register Now
               </button>
-              </a>
-            </div>
+            </a>
           </div>
 
+          {/* Right: Redshifted Logo (Desktop) */}
+          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="hidden md:block group relative">
+            {/* Glow effect behind Redshifted logo */}
+            <div className="absolute -inset-3 bg-white/20 blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+            <img 
+              src="/redshifted-logo.png" 
+              alt="Redshifted logo" 
+              className="h-8 md:h-10 w-auto object-contain opacity-90 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all duration-300" 
+            />
+          </a>
+
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-cyan-400 cursor-pointer">
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -119,7 +161,7 @@ const Hero: React.FC = () => {
   // --- 1. COUNTDOWN LOGIC ---
   const calculateTimeLeft = () => {
     // Target: March 7, 2026 (EST assumed based on Ottawa location)
-    const difference = +new Date("2026-03-07T08:00:00") - +new Date();
+    const difference = +new Date("2026-03-07T09:00:00") - +new Date();
     
     if (difference > 0) {
       return {
@@ -167,6 +209,18 @@ const Hero: React.FC = () => {
       
       {/* --- CSS ENGINE --- */}
       <style>{`
+        /* 1. Confetti Animation */
+        @keyframes confetti-fall {
+          0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .confetti-piece {
+          position: absolute;
+          top: -10px;
+          width: 10px;
+          height: 10px;
+          animation: confetti-fall 4s linear forwards;
+        }
 
         /* 2. Existing Physics (Black Hole & Debris) */
         @keyframes texture-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -176,12 +230,14 @@ const Hero: React.FC = () => {
         }
         @keyframes converge {
           0% { left: -150px; top: var(--start-y); transform: scale(1) rotate(0deg); opacity: 0; }
+          5% { opacity: 0; }
           10% { opacity: 1; }
           60% { left: 60%; top: var(--start-y); transform: scale(0.8) rotate(180deg); }
           100% { left: 80%; top: 50%; transform: scale(0) rotate(720deg); opacity: 0; }
         }
         .debris-item {
           position: absolute;
+          opacity: 0;
           animation-name: converge;
           animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
           animation-iteration-count: infinite;
@@ -202,7 +258,7 @@ const Hero: React.FC = () => {
 
       {/* --- FLOATING DEBRIS LAYER --- */}
       <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        {items.map((item, index) => (
+        {items.length > 0 && items.map((item, index) => (
           <img
             key={index}
             src={item.src}
@@ -258,7 +314,7 @@ const Hero: React.FC = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
-          <span className="text-green-100 text-xs md:text-sm font-bold tracking-[0.2em] uppercase cursor-pointer">Systems Online</span>
+          <span className="text-green-100 text-xs md:text-sm font-bold tracking-[0.2em] uppercase">Systems Online</span>
         </div>
 
         {/* 1. CATALYST LOGO */}
@@ -270,23 +326,25 @@ const Hero: React.FC = () => {
            />
         </div>
 
-        {/* 2. PRESENTED BY */}
-        <div className="flex flex-col items-center md:items-start gap-2 mb-8 pl-2">
+        {/* 2. POWERED BY */}
+        <div className="flex flex-col items-start gap-2 mb-8">
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-500">
-            Presented By
+            POWERED BY
           </p>
-          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
-             <img 
-               src="/redshifted-logo.png" 
-               alt="Redshifted Logo" 
-               className="h-8 md:h-12 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
-             />
+          <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group relative">
+            {/* Background halo */}
+            <div className="absolute -inset-4 bg-white/5 blur-2xl rounded-full opacity-60 group-hover:opacity-100 group-hover:bg-white/10 transition-all duration-300"></div>
+            <img 
+              src="/sponsors/sponsor_thales.png" 
+              alt="Thales Logo" 
+              className="relative h-6 md:h-8 w-auto opacity-95 group-hover:opacity-100 group-hover:brightness-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.9)] transition-all duration-300"
+            />
           </a>
         </div>
 
         {/* Description Text */}
         <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-8 leading-relaxed drop-shadow-md font-light pl-2">
-          Join us at the event horizon. Start your journey here, or build something never seen before. <br/><span className="text-white font-medium">Gravity is no limit.</span>
+          Join us at the event horizon. Start your journey here, or build something never seen before. <br/><span className="text-white font-medium">This is Canada's first hardware hackathon for high schoolers.</span>
         </p>
 
         {/* --- 3. COUNTDOWN TIMER --- */}
@@ -297,21 +355,25 @@ const Hero: React.FC = () => {
              { label: 'Minutes', value: timeLeft.minutes },
              { label: 'Seconds', value: timeLeft.seconds }
            ].map((item, i) => (
-             <div key={i} className="flex flex-col items-center">
-               <div className="w-16 h-16 md:w-20 md:h-20 bg-slate-900/50 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center shadow-lg">
-                 <span className="text-2xl md:text-3xl font-mono font-bold text-white tabular-nums">
-                   {item.value < 10 ? `0${item.value}` : item.value}
-                 </span>
+             <div key={i} className="flex flex-col items-center group">
+               {/* Outer glow effect */}
+               <div className="relative">
+                 <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 via-purple-500 to-orange-500 rounded-2xl opacity-0 group-hover:opacity-50 blur-xl transition-all duration-500"></div>
+                 <div className="relative w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-md border-2 border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(34,211,238,0.15)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] group-hover:border-purple-400/50 transition-all duration-300">
+                   <span className="text-2xl md:text-3xl font-mono font-bold bg-gradient-to-br from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent tabular-nums drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-transform duration-300">
+                     {item.value < 10 ? `0${item.value}` : item.value}
+                   </span>
+                 </div>
                </div>
-               <span className="text-[10px] uppercase tracking-wider text-slate-400 mt-2">{item.label}</span>
+               <span className="text-[10px] uppercase tracking-wider text-slate-400 group-hover:text-cyan-300 mt-2 transition-colors duration-300 font-semibold">{item.label}</span>
              </div>
            ))}
         </div>
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pl-1">
-          <a href="http://tiny.cc/catalyst-hack" target="_blank" rel="noopener noreferrer"  className="w-full sm:w-auto ">
-            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)] cursor-pointer">
+          <a href="http://tiny.cc/catalyst-hack" className="w-full sm:w-auto">
+            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 cursor-pointer hover:shadow-[0_0_40px_rgba(255,165,0,0.5)]">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
@@ -558,38 +620,12 @@ const FlightPaths: React.FC = () => {
               {/* Graphic Composition */}
               <div className="relative w-full h-full max-w-md">
                 
-                {/* Element 1 */}
-                <div className="absolute top-0 left-15 transform -rotate-6 bg-slate-800 p-4 rounded-lg border border-cyan-500/50 shadow-lg z-10">
-                  <BookOpen className="w-8 h-8 text-cyan-400 mb-2" />
-                  <span className="font-bold text-white font-mono text-lg">Imagine<br/>something</span>
-                </div>
-
-                {/* Arrow 1 */}
-                <div className="absolute top-12 left-50 text-cyan-500 animate-pulse">
-                   <ArrowDownRight className="w-12 h-12" />
-                </div>
-
-                {/* Element 2 */}
-                <div className="absolute top-1/2 right-10 transform translate-y-[-50%] rotate-3 bg-slate-800 p-4 rounded-lg border border-cyan-500/50 shadow-lg z-10">
-                   <Wrench className="w-8 h-8 text-yellow-400 mb-2" />
-                   <span className="font-bold text-white font-mono text-lg">Assemble<br/>Prototype</span>
-                </div>
-
-                 {/* Arrow 2 */}
-                 <div className="absolute bottom-15 left-50 text-cyan-500 animate-pulse delay-75">
-                   <ArrowDownRight className="w-12 h-12 transform rotate-100" />
-                </div>
-
-                {/* Element 3 */}
-                <div className="absolute bottom-0 left-15 transform rotate-2 bg-slate-800 p-4 rounded-lg border border-cyan-500/50 shadow-lg z-10">
-                   <Rocket className="w-8 h-8 text-red-500 mb-2" />
-                   <span className="font-bold text-white font-mono text-lg">Liftoff!</span>
-                </div>
+                <img src="/cadet.png" alt="Cadet Track" className="w-full h-full object-contain drop-shadow-lg" />
               </div>
             </div>
 
             {/* Bottom Button */}
-            <a href='http://tiny.cc/catalyst-hack' target="_blank" rel="noopener noreferrer">
+            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7' target="_blank" rel="noopener noreferrer">
             <button className="mt-auto w-full py-5 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-cyan-400 group-hover:text-black cursor-pointer">
               Start Cadet Track <ArrowRight className="w-5 h-5" />
             </button>
@@ -601,8 +637,8 @@ const FlightPaths: React.FC = () => {
             
             {/* Text Header */}
             <div className="p-8 pb-4 text-center">
-              <h3 className="text-2xl font-bold text-white mb-2">Commander Track - Climax of your MC energy.</h3>
-              <p className="text-slate-400 italic">For epic, self-guided deep space exploration. Beat the universe's challenge.</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Commander Track - Above and Beyond.</h3>
+              <p className="text-slate-400 italic">For epic, primarily self-guided deep exploration into hardware. Beat the universe's challenge.</p>
             </div>
 
             {/* The "Graphic Poster" Area */}
@@ -614,38 +650,12 @@ const FlightPaths: React.FC = () => {
               {/* Graphic Composition */}
               <div className="relative w-full h-full max-w-md">
                 
-                {/* Element 1 */}
-                <div className="absolute top-4 left-4 transform rotate-3 bg-slate-800 p-4 rounded-lg border border-purple-500/50 shadow-lg z-10">
-                  <div className="w-8 h-8 rounded-full border-2 border-purple-400 mb-2 bg-purple-500/20"></div>
-                  <span className="font-bold text-white font-mono text-lg">Design<br/>Originals</span>
-                </div>
-
-                {/* Arrow 1 */}
-                <div className="absolute top-8 left-50 text-purple-400 animate-pulse">
-                   <ArrowUpRight className="w-12 h-12 transform rotate-50" />
-                </div>
-
-                {/* Element 2 */}
-                <div className="absolute top-0 right-4 transform -rotate-3 bg-slate-800 p-4 rounded-lg border border-purple-500/50 shadow-lg z-10">
-                   <span className="text-2xl font-bold text-green-400 block mb-1">$$$</span>
-                   <span className="font-bold text-white font-mono text-lg">Get<br/>Building</span>
-                </div>
-
-                 {/* Arrow 2 */}
-                 <div className="absolute bottom-15 right-20 text-purple-400 animate-pulse delay-75">
-                   <ArrowDownRight className="w-12 h-12 transform rotate-100" />
-                </div>
-
-                {/* Element 3 (Main Image Area) */}
-                <div className="absolute bottom-1/10000 left-1/2 transform -translate-x-1/2 bg-slate-800 p-4 rounded-lg border border-purple-500/50 shadow-lg z-10 w-48 text-center">
-                   <Trophy className="w-10 h-10 text-yellow-400 mx-auto mb-2" />
-                   <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 font-mono text-xl">BEAT THE<br/>CHALLENGE!</span>
-                </div>
+                <img src="/commander.png" alt="Commander Track" className="w-full h-full object-contain drop-shadow-lg" />
               </div>
             </div>
 
             {/* Bottom Button */}
-            <a href='http://tiny.cc/catalyst-hack' target="_blank" rel="noopener noreferrer">
+            <a href='https://forms.gle/FEVGkZR9T5gLnjgE7' target="_blank" rel="noopener noreferrer">
             <button className="mt-auto w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group-hover:bg-purple-400 group-hover:text-black cursor-pointer">
               Start Commander Track <ArrowRight className="w-5 h-5" />
             </button>
@@ -727,6 +737,10 @@ const LogisticsSection: React.FC = () => {
     {
       question: "How can I sponsor this event?",
       answer: "Please email andy.han@redshifted.ca for sponsorship opportunities and packages."
+    },
+    {
+      question: "I'm not sure if my parent/guardian will allow me to attend. What should I tell them?",
+      answer: "No worries! Please email andy.han@redshifted.ca and we can schedule a short call to answer any questions they have and provide more information about the event."
     }
   ];
 
@@ -876,29 +890,29 @@ const Sponsors: React.FC = () => {
             OUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">PARTNERS</span>
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Powering the next generation of space exploration and innovation.
+            Powering the next generation of engineers and innovation.
           </p>
         </div>
         
         <div className="space-y-20">
           
-          {/* --- PLATINUM SPONSORS --- */}
+          {/* --- TITLE SPONSOR --- */}
           <div className="space-y-8">
             <div className="flex items-center justify-center gap-3">
               <Trophy className="w-8 h-8 text-cyan-400" />
-              <h3 className="text-3xl font-bold text-white tracking-widest">PLATINUM</h3>
+              <h3 className="text-3xl font-bold text-white tracking-widest">TITLE SPONSOR</h3>
               <Trophy className="w-8 h-8 text-cyan-400" />
             </div>
             
             <div className="flex flex-wrap justify-center gap-8">
               {[
-                { name: "Your logo here", logo: null, url: "#" },
+                { name: "Thales", logo: "/sponsors/sponsor_thales.png", url: "https://www.thalesgroup.com/en" },
               ].map((sponsor, i) => (
                 <div
                   key={i}
                   onMouseEnter={() => setHoveredSponsor(`platinum-${i}`)}
                   onMouseLeave={() => setHoveredSponsor(null)}
-                  className={`group relative w-full md:w-[600px] rounded-3xl border border-cyan-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:rotate-1 hover:border-cyan-400 hover:shadow-[0_0_60px_rgba(34,211,238,0.5),0_0_100px_rgba(139,92,246,0.3)] overflow-hidden cursor-pointer`}
+                  className={`group relative w-full md:w-[600px] rounded-3xl border border-cyan-500/30 bg-slate-900/50 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:rotate-1 hover:border-cyan-400 hover:shadow-[0_0_60px_rgba(34,211,238,0.5),0_0_100px_rgba(139,92,246,0.3)] overflow-hidden`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -989,7 +1003,7 @@ const Sponsors: React.FC = () => {
             <div className="flex flex-wrap justify-center gap-6 md:gap-8">
               {[
                 { name: "CIRA", logo: "/sponsors/sponsor_cira.png", url: "https://www.cira.ca/en/canadian-shield/" },
-                { name: "Your logo here", logo: null },
+                { name: "Chessmates Ottawa", logo: "/sponsors/sponsor_chessmatesottawa.jpg", url: "https://www.chessmatesottawa.ca/" },
                 { name: "Your logo here", logo: null },
               ].map((sponsor, i) => (
                 <div
@@ -1013,10 +1027,22 @@ const Sponsors: React.FC = () => {
                      {sponsor.logo ? (
                         sponsor.url ? (
                           <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
-                            <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain group-hover:scale-110 transition-transform" />
+                            {sponsor.name === "Chessmates Ottawa" ? (
+                              <div className="relative p-6 rounded-xl border-[1px] border-white bg-white">
+                                <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain group-hover:scale-110 transition-transform" />
+                              </div>
+                            ) : (
+                              <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain group-hover:scale-110 transition-transform" />
+                            )}
                           </a>
                         ) : (
-                          <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
+                          sponsor.name === "Chessmates Ottawa" ? (
+                            <div className="relative p-6 rounded-xl border-[1px] border-white bg-white">
+                              <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
+                            </div>
+                          ) : (
+                            <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
+                          )
                         )
                      ) : (
                         <span className="text-lg font-bold text-slate-400 group-hover:text-white transition-colors">
@@ -1320,6 +1346,9 @@ const WhiteHoleHero: React.FC = () => {
             opacity: 0;
             filter: blur(10px) brightness(10); /* Starts as pure light */
           }
+          5% {
+            opacity: 0;
+          }
           10% {
             opacity: 1;
             filter: blur(0px) brightness(2);
@@ -1336,6 +1365,7 @@ const WhiteHoleHero: React.FC = () => {
 
         .eject-item {
           position: absolute;
+          opacity: 0;
           animation-name: eject;
           /* Cubic-bezier for "Explosion": Fast start, slow end */
           animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
@@ -1381,7 +1411,7 @@ const WhiteHoleHero: React.FC = () => {
 
       {/* --- FLOATING DEBRIS LAYER (EJECTED) --- */}
       <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        {items.map((item, index) => (
+        {items.length > 0 && items.map((item, index) => (
           <img
             key={index}
             src={item.src}
@@ -1464,23 +1494,27 @@ const WhiteHoleHero: React.FC = () => {
            />
         </div>
 
-        {/* 2. PRESENTED BY */}
+        {/* 2. POWERED BY */}
         <div className="flex flex-col items-center md:items-end gap-2 mb-8 pr-2">
           <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-slate-400">
-            Presented By
+            POWERED BY
           </p>
-          <a href="https://redshifted.ca" target="_blank" rel="noopener noreferrer" className="inline-block group">
-             <img 
-               src="/redshifted-logo.png" 
-               alt="Redshifted Logo" 
-               className="h-8 md:h-12 w-auto opacity-90 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
-             />
+          <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group relative">
+            {/* Background halo */}
+            <div className="absolute -inset-4 bg-white/5 blur-2xl rounded-full opacity-60 group-hover:opacity-100 group-hover:bg-white/10 transition-all duration-300"></div>
+            <img 
+              src="/sponsors/sponsor_thales.png" 
+              alt="Thales Logo" 
+              className="relative h-6 md:h-8 w-auto opacity-95 group-hover:opacity-100 group-hover:brightness-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.9)] transition-all duration-300"
+            />
           </a>
         </div>
 
         {/* Description Text */}
         <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-12 leading-relaxed drop-shadow-md font-light pr-2">
-          Creation starts here. Witness the birth of new ideas and impossible technologies. <br/><span className="text-white font-medium">The output is infinite.</span>
+          Creation starts here. Witness the birth of new ideas and impossible technologies. <br/><span className="text-white font-medium">This is Canada's first hardware hackathon for high schoolers.
+
+</span>
         </p>
 
         {/* Buttons */}
