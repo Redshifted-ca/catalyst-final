@@ -350,11 +350,13 @@ const Hero: React.FC = () => {
             POWERED BY
           </p>
           <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group">
-             <img 
-               src="/sponsors/sponsor_thales.png" 
-               alt="Thales Logo" 
-               className="h-8 md:h-7 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
-             />
+            <div className="bg-white/10 backdrop-blur-sm p-1.5 rounded-xl transition-all duration-300">
+              <img 
+                src="/sponsors/sponsor_thales_alt.jpg" 
+                alt="Thales Logo" 
+                className="h-24 md:h-32 w-auto opacity-95 group-hover:opacity-100 group-hover:brightness-110 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300 rounded-lg"
+              />
+            </div>
           </a>
         </div>
 
@@ -939,11 +941,11 @@ const Sponsors: React.FC = () => {
             
             <div className="flex flex-wrap justify-center gap-8">
               {[
-                { name: "Thales", logo: "/sponsors/sponsor_thales.png", url: "https://www.thalesgroup.com/en" },
+                { name: "Thales", logo: "/sponsors/sponsor_thales_alt.jpg", url: "https://www.thalesgroup.com/en" },
               ].map((sponsor, i) => (
                 <div key={i} className="relative group">
-                  {/* Outer Glow Effect - Behind the card */}
-                  <div className="absolute -inset-8 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 rounded-3xl opacity-0 group-hover:opacity-70 blur-3xl transition-all duration-500 -z-10" />
+                  {/* Outer Glow Effect - Behind the card with pulse animation */}
+                  <div className="absolute -inset-8 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 rounded-3xl opacity-0 group-hover:opacity-70 blur-3xl transition-all duration-500 -z-10 group-hover:animate-pulse" />
                   
                   <a
                     href={sponsor.url}
@@ -962,7 +964,9 @@ const Sponsors: React.FC = () => {
                     <div className="relative z-10 w-full p-12 space-y-8">
                       {sponsor.logo ? (
                         <div className="flex justify-center">
-                          <img src={sponsor.logo} alt={sponsor.name} className="max-h-40 w-auto object-contain group-hover:scale-105 transition-transform duration-500" />
+                          <div className="bg-white/10 backdrop-blur-sm p-2 rounded-2xl transition-all duration-500">
+                            <img src={sponsor.logo} alt={sponsor.name} className="max-h-36 md:max-h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-500 rounded-xl" />
+                          </div>
                         </div>
                       ) : (
                         <span className="text-3xl font-bold text-slate-300 group-hover:text-white group-hover:scale-110 transition-all duration-500 relative block text-center">
@@ -1530,11 +1534,13 @@ const WhiteHoleHero: React.FC = () => {
             POWERED BY
           </p>
           <a href="https://www.thalesgroup.com/en" target="_blank" rel="noopener noreferrer" className="inline-block group">
-             <img 
-               src="/sponsors/sponsor_thales.png" 
-               alt="Thales Logo" 
-               className="h-8 md:h-7 w-auto opacity-80 group-hover:opacity-100 group-hover:brightness-150 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300"
-             />
+            <div className="bg-white/10 backdrop-blur-sm p-1.5 rounded-xl transition-all duration-300">
+              <img 
+                src="/sponsors/sponsor_thales_alt.jpg" 
+                alt="Thales Logo" 
+                className="h-24 md:h-32 w-auto opacity-95 group-hover:opacity-100 group-hover:brightness-110 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-300 rounded-lg"
+              />
+            </div>
           </a>
         </div>
 
