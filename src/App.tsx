@@ -160,8 +160,8 @@ const Navbar: React.FC = () => {
 const Hero: React.FC = () => {
   // --- 1. COUNTDOWN LOGIC ---
   const calculateTimeLeft = () => {
-    // Target: March 7, 2026 (EST assumed based on Ottawa location)
-    const difference = +new Date("2026-03-07T09:00:00") - +new Date();
+    // Target: March 7, 2026 8:00 AM (EST assumed based on Ottawa location)
+    const difference = +new Date("2026-03-07T08:00:00") - +new Date();
     
     if (difference > 0) {
       return {
@@ -387,13 +387,17 @@ const Hero: React.FC = () => {
              { label: 'Minutes', value: timeLeft.minutes },
              { label: 'Seconds', value: timeLeft.seconds }
            ].map((item, i) => (
-             <div key={i} className="flex flex-col items-center">
-               <div className="w-16 h-16 md:w-20 md:h-20 bg-slate-900/50 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center shadow-lg">
-                 <span className="text-2xl md:text-3xl font-mono font-bold text-white tabular-nums">
-                   {item.value < 10 ? `0${item.value}` : item.value}
-                 </span>
+             <div key={i} className="flex flex-col items-center group">
+               {/* Outer glow effect */}
+               <div className="relative">
+                 <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 via-purple-500 to-orange-500 rounded-2xl opacity-0 group-hover:opacity-50 blur-xl transition-all duration-500"></div>
+                 <div className="relative w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-md border-2 border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(34,211,238,0.15)] group-hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] group-hover:border-purple-400/50 transition-all duration-300">
+                   <span className="text-2xl md:text-3xl font-mono font-bold bg-gradient-to-br from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent tabular-nums drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-transform duration-300">
+                     {item.value < 10 ? `0${item.value}` : item.value}
+                   </span>
+                 </div>
                </div>
-               <span className="text-[10px] uppercase tracking-wider text-slate-400 mt-2">{item.label}</span>
+               <span className="text-[10px] uppercase tracking-wider text-slate-400 group-hover:text-cyan-300 mt-2 transition-colors duration-300 font-semibold">{item.label}</span>
              </div>
            ))}
         </div>
