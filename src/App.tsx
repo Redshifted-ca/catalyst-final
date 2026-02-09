@@ -175,20 +175,12 @@ const Hero: React.FC = () => {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
-
-  // --- 2. CONFETTI LOGIC ---
-  // Stop rendering confetti after 5 seconds to save resources
-  useEffect(() => {
-    const timer = setTimeout(() => setShowConfetti(false), 5000);
-    return () => clearTimeout(timer);
   }, []);
 
   // --- FLOATING DEBRIS CONFIG ---
@@ -218,20 +210,7 @@ const Hero: React.FC = () => {
       
       {/* --- CSS ENGINE --- */}
       <style>{`
-        /* 1. Confetti Animation */
-        @keyframes confetti-fall {
-          0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-        .confetti-piece {
-          position: absolute;
-          top: -10px;
-          width: 10px;
-          height: 10px;
-          animation: confetti-fall 4s linear forwards;
-        }
-
-        /* 2. Existing Physics (Black Hole & Debris) */
+        /* Physics (Black Hole & Debris) */
         @keyframes texture-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes horizon-pulse {
           0%, 100% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.6), inset 0 0 20px black; }
@@ -258,25 +237,6 @@ const Hero: React.FC = () => {
           background: repeating-conic-gradient(from 0deg, rgba(0,0,0,0.1) 0deg, transparent 5deg, rgba(0,0,0,0.3) 10deg, transparent 15deg);
         }
       `}</style>
-
-      {/* --- CONFETTI OVERLAY (Only shows on mount) --- */}
-      {showConfetti && (
-        <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden">
-          {Array.from({ length: 50 }).map((_, i) => (
-            <div
-              key={i}
-              className="confetti-piece"
-              style={{
-                left: `${Math.random() * 100}%`,
-                backgroundColor: ['#22d3ee', '#a855f7', '#f97316', '#ffffff'][Math.floor(Math.random() * 4)],
-                animationDelay: `${Math.random() * 2}s`,
-                width: `${Math.random() * 8 + 4}px`,
-                height: `${Math.random() * 12 + 6}px`,
-              }}
-            />
-          ))}
-        </div>
-      )}
 
       {/* --- BACKGROUND LAYER --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
