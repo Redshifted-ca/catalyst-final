@@ -310,11 +310,11 @@ const Hero: React.FC = () => {
           {/* Catalyst Logo */}
           <div className="relative group -mt-0 md:-mt-0 -z-10">
             <div className="absolute -inset-10 bg-orange-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-            <img 
-              src="/catalystlogo.png" 
-              alt="Catalyst Logo" 
-              className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]"
-            />
+           <img 
+             src="/catalystlogo.png" 
+             alt="Catalyst Logo" 
+             className="relative z-10 w-[280px] md:w-[500px] h-auto drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]"
+           />
           </div>
         </div>
 
@@ -336,7 +336,7 @@ const Hero: React.FC = () => {
 
         {/* Description Text */}
         <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-8 leading-relaxed drop-shadow-md font-light pl-2">
-          Join us at the event horizon. Start your journey here, or build something never seen before. <br/><span className="text-white font-medium">Gravity is no limit.</span>
+          Join us at Canada's first hardware hackathon for highschoolers! Start your hardware journey here, or build something you've never tried before. <br/><span className="text-white font-medium">This is a beginner friendly-event.</span>
         </p>
 
         {/* --- 3. COUNTDOWN TIMER --- */}
@@ -365,7 +365,7 @@ const Hero: React.FC = () => {
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-5 w-full sm:w-auto mb-16 pl-1">
           <a href="http://tiny.cc/catalyst-build" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)]">
+            <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)] cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
@@ -374,7 +374,7 @@ const Hero: React.FC = () => {
           </a>
           
           <a href="#faq" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2">
+            <button className="w-full sm:w-auto px-8 py-4 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-lg text-white font-bold text-lg hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2 cursor-pointer">
               View Trajectory <ChevronRight className="w-5 h-5 text-slate-400" />
             </button>
           </a>
@@ -383,11 +383,16 @@ const Hero: React.FC = () => {
         {/* Logistics */}
         <div className="w-full md:w-auto border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-8 flex justify-center md:justify-start">
           <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
+            <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Redshifted+Catalyst+-+Canada%27s+First+Hardware+Hackathon+for+High+Schoolers&dates=20260307T130000Z/20260308T030000Z&details=Ever+wanted+to+actually+BUILD+something+cool%3F%0ARedshifted+Catalyst+is+Canada%27s+FIRST+hardware+hackathon+for+high+schoolers%2C+and+it%27s+going+to+be+insane.+Forget+coding+on+a+screen+all+day+-+this+is+about+designing+and+building+real%2C+physical+hardware+projects+with+your+hands.%0A%0AYou%27ll+team+up+with+other+students%2C+get+access+to+tools+and+hardware+%28like+ESP32%29%2C+and+make+something+from+scratch.%0A%0AFREE+%28no+cost+%2B+free+food+%2B+free+merch+%2B+prizes%29%0A%0ASign+up+here%3A+http%3A%2F%2Ftiny.cc%2Fcatalyst-build&location=STEM+Complex%2C+uOttawa%2C+150+Louis-Pasteur+Private"
+              title="Add to Google Calendar!"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all group shadow-lg">
             <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
-              <Calendar className="w-4 h-4 text-orange-400" />
+              <Calendar className="w-4 h-4 text-orange-400 group-hover:animate-bounce" />
               <span className="text-slate-200">Saturday, March 7th, 2026</span>
             </div>
-            
+            </a>
             <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
                target="_blank" 
                rel="noopener noreferrer"
@@ -607,33 +612,7 @@ const FlightPaths: React.FC = () => {
               {/* Graphic Composition */}
               <div className="relative w-full h-full max-w-md">
                 
-                {/* Element 1 */}
-                <div className="absolute top-0 left-15 transform -rotate-6 bg-slate-800 p-4 rounded-lg border border-cyan-500/50 shadow-lg z-10">
-                  <BookOpen className="w-8 h-8 text-cyan-400 mb-2" />
-                  <span className="font-bold text-white font-mono text-lg">Imagine<br/>something</span>
-                </div>
-
-                {/* Arrow 1 */}
-                <div className="absolute top-12 left-50 text-cyan-500 animate-pulse">
-                   <ArrowDownRight className="w-12 h-12" />
-                </div>
-
-                {/* Element 2 */}
-                <div className="absolute top-1/2 right-10 transform translate-y-[-50%] rotate-3 bg-slate-800 p-4 rounded-lg border border-cyan-500/50 shadow-lg z-10">
-                   <Wrench className="w-8 h-8 text-yellow-400 mb-2" />
-                   <span className="font-bold text-white font-mono text-lg">Assemble<br/>Prototype</span>
-                </div>
-
-                 {/* Arrow 2 */}
-                 <div className="absolute bottom-15 left-50 text-cyan-500 animate-pulse delay-75">
-                   <ArrowDownRight className="w-12 h-12 transform rotate-100" />
-                </div>
-
-                {/* Element 3 */}
-                <div className="absolute bottom-0 left-15 transform rotate-2 bg-slate-800 p-4 rounded-lg border border-cyan-500/50 shadow-lg z-10">
-                   <Rocket className="w-8 h-8 text-red-500 mb-2" />
-                   <span className="font-bold text-white font-mono text-lg">Liftoff!</span>
-                </div>
+                <img src="/cadet.png" alt="Cadet Track" className="w-full h-full object-contain drop-shadow-lg" />
               </div>
             </div>
 
@@ -663,33 +642,7 @@ const FlightPaths: React.FC = () => {
               {/* Graphic Composition */}
               <div className="relative w-full h-full max-w-md">
                 
-                {/* Element 1 */}
-                <div className="absolute top-4 left-4 transform rotate-3 bg-slate-800 p-4 rounded-lg border border-purple-500/50 shadow-lg z-10">
-                  <div className="w-8 h-8 rounded-full border-2 border-purple-400 mb-2 bg-purple-500/20"></div>
-                  <span className="font-bold text-white font-mono text-lg">Design<br/>Originals</span>
-                </div>
-
-                {/* Arrow 1 */}
-                <div className="absolute top-8 left-50 text-purple-400 animate-pulse">
-                   <ArrowUpRight className="w-12 h-12 transform rotate-50" />
-                </div>
-
-                {/* Element 2 */}
-                <div className="absolute top-0 right-4 transform -rotate-3 bg-slate-800 p-4 rounded-lg border border-purple-500/50 shadow-lg z-10">
-                   <span className="text-2xl font-bold text-green-400 block mb-1">$$$</span>
-                   <span className="font-bold text-white font-mono text-lg">Get<br/>Building</span>
-                </div>
-
-                 {/* Arrow 2 */}
-                 <div className="absolute bottom-15 right-20 text-purple-400 animate-pulse delay-75">
-                   <ArrowDownRight className="w-12 h-12 transform rotate-100" />
-                </div>
-
-                {/* Element 3 (Main Image Area) */}
-                <div className="absolute bottom-1/10000 left-1/2 transform -translate-x-1/2 bg-slate-800 p-4 rounded-lg border border-purple-500/50 shadow-lg z-10 w-48 text-center">
-                   <Trophy className="w-10 h-10 text-yellow-400 mx-auto mb-2" />
-                   <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 font-mono text-xl">BEAT THE<br/>CHALLENGE!</span>
-                </div>
+                <img src="/commander.png" alt="Commander Track" className="w-full h-full object-contain drop-shadow-lg" />
               </div>
             </div>
 
@@ -776,6 +729,10 @@ const LogisticsSection: React.FC = () => {
     {
       question: "How can I sponsor this event?",
       answer: "Please email andy.han@redshifted.ca for sponsorship opportunities and packages."
+    },
+    {
+      question: "I'm not sure if my parent/guardian will allow me to attend. What should I tell them?",
+      answer: "No worries! Please email andy.han@redshifted.ca and we can schedule a short call to answer any questions they have and provide more information about the event."
     }
   ];
 
@@ -925,7 +882,7 @@ const Sponsors: React.FC = () => {
             OUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">PARTNERS</span>
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Powering the next generation of engineers and innovation.
+            Powering the next generation of engineers and innovators.
           </p>
         </div>
         
@@ -952,39 +909,39 @@ const Sponsors: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onMouseEnter={() => setHoveredSponsor(`title-${i}`)}
-                    onMouseLeave={() => setHoveredSponsor(null)}
+                  onMouseLeave={() => setHoveredSponsor(null)}
                     className={`relative w-full md:w-[700px] lg:w-[800px] rounded-3xl border border-cyan-500/30 bg-slate-900 backdrop-blur-md transition-all duration-500 group-hover:scale-105 group-hover:rotate-1 group-hover:border-cyan-400 cursor-pointer block overflow-hidden`}
-                  >
+                >
                     {/* Very subtle inner shimmer only */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/3 to-transparent animate-shimmer" style={{ animation: 'shimmer 2s infinite' }} />
-                    </div>
-                    
+                  </div>
+                  
                     {/* Logo and Description */}
                     <div className="relative z-10 w-full p-12 space-y-8">
-                      {sponsor.logo ? (
+                    {sponsor.logo ? (
                         <div className="flex justify-center">
                           <img src={sponsor.logo} alt={sponsor.name} className="max-h-12 md:max-h-14 w-auto object-contain group-hover:scale-105 group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500" />
                         </div>
-                      ) : (
+                    ) : (
                         <span className="text-3xl font-bold text-slate-300 group-hover:text-white group-hover:scale-110 transition-all duration-500 relative block text-center">
-                          <span className="relative">{sponsor.name}</span>
-                        </span>
-                      )}
+                        <span className="relative">{sponsor.name}</span>
+                      </span>
+                    )}
                       
                       {/* Description */}
                       <div className="relative z-10 text-slate-300 text-sm leading-relaxed text-center max-w-2xl mx-auto">
                         <p>Thales Group is a global technology leader in aerospace, defense, security, and digital markets, providing critical systems, products, and services for national security, aviation, space, and cybersecurity, focusing on digital and "deep tech" like AI, big data, and quantum to keep people safe, connected, and protected.</p>
                         <p className="mt-3">They design, develop, and manufacture complex solutions, including aircraft systems, defense equipment, cybersecurity software, space technologies, and identity management for government and commercial clients worldwide.</p>
                       </div>
-                    </div>
-                    
-                    {/* Corner Icon */}
+                  </div>
+                  
+                  {/* Corner Icon */}
                     <div className="absolute top-4 right-4 z-20 opacity-50 group-hover:opacity-100 group-hover:rotate-12 group-hover:scale-125 transition-all duration-500">
-                      <Trophy className="w-6 h-6 text-cyan-500 group-hover:text-cyan-300" />
-                    </div>
-                    
-                    {/* Animated Corner Accents */}
+                    <Trophy className="w-6 h-6 text-cyan-500 group-hover:text-cyan-300" />
+                  </div>
+                  
+                  {/* Animated Corner Accents */}
                     <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-cyan-400/0 group-hover:border-cyan-400/80 transition-all duration-500 rounded-tl-3xl z-20" />
                     <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-cyan-400/0 group-hover:border-cyan-400/80 transition-all duration-500 rounded-br-3xl z-20" />
                   </a>
@@ -1364,7 +1321,7 @@ const WhiteHoleHero: React.FC = () => {
       
       return {
         ...item,
-        endY: basePos + noise, // The destination Y coordinate
+        endY: basePos + noise, // The destination Y coordinate  
         delay: Math.random() * 4,
         duration: 5 + Math.random() * 2
       };
@@ -1560,7 +1517,9 @@ const WhiteHoleHero: React.FC = () => {
 
         {/* Description Text */}
         <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-12 leading-relaxed drop-shadow-md font-light pr-2">
-          Creation starts here. Witness the birth of new ideas and impossible technologies. <br/><span className="text-white font-medium">The output is infinite.</span>
+          Creation starts here. Witness the birth of new ideas and impossible technologies. <br/><span className="text-white font-medium">This is Canada's first hardware hackathon for high schoolers.
+
+</span>
         </p>
 
         {/* Buttons */}
@@ -1586,10 +1545,17 @@ const WhiteHoleHero: React.FC = () => {
         {/* Logistics */}
         <div className="w-full md:w-auto border-t md:border-t-0 md:border-r border-white/10 pt-8 md:pt-0 md:pr-8 flex justify-center md:justify-end">
           <div className="flex flex-col sm:flex-row gap-6 text-sm font-medium">
+            <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Redshifted+Catalyst+-+Canada%27s+First+Hardware+Hackathon+for+High+Schoolers&dates=20260307T130000Z/20260308T030000Z&details=Ever+wanted+to+actually+BUILD+something+cool%3F%0ARedshifted+Catalyst+is+Canada%27s+FIRST+hardware+hackathon+for+high+schoolers%2C+and+it%27s+going+to+be+insane.+Forget+coding+on+a+screen+all+day+-+this+is+about+designing+and+building+real%2C+physical+hardware+projects+with+your+hands.%0A%0AYou%27ll+team+up+with+other+students%2C+get+access+to+tools+and+hardware+%28like+ESP32%29%2C+and+make+something+from+scratch.%0A%0AFREE+%28no+cost+%2B+free+food+%2B+free+merch+%2B+prizes%29%0A%0ASign+up+here%3A+http%3A%2F%2Ftiny.cc%2Fcatalyst-build&location=STEM+Complex%2C+uOttawa%2C+150+Louis-Pasteur+Private"
+              title="Add to Google Calendar!"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all group shadow-lg">
             <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/5 shadow-lg">
-              <Calendar className="w-4 h-4 text-cyan-300" />
+              <Calendar className="w-4 h-4 text-cyan-300 group-hover:animate-bounce" />
               <span className="text-slate-200">Saturday, March 7th, 2026</span>
             </div>
+            </a>
+            
             
             <a href="https://www.uottawa.ca/about-us/administration-services/facilities/campus-maps/building/stem-complex" 
                target="_blank" 
