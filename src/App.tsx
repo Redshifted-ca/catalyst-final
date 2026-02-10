@@ -890,7 +890,7 @@ const Sponsors: React.FC = () => {
             OUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">PARTNERS</span>
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Powering the next generation of engineers and innovation.
+            Powering the next generation of engineers and innovators.
           </p>
         </div>
         
