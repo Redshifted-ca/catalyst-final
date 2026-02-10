@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Rocket, Calendar, MapPin, Menu, X, ChevronRight, Zap, Star, Box, Hammer, Trophy, Award, TrendingUp, Heart, Plus, Minus, Clock, HelpCircle, Terminal, Instagram, Mail, BookOpen, Wrench, ArrowRight, ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { Rocket, Calendar, MapPin, Menu, X, ChevronRight, Zap, Star, Box, Hammer, Trophy, Award, TrendingUp, Heart, Plus, Minus, Clock, HelpCircle, Terminal, Instagram, Mail, ArrowRight } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
@@ -160,8 +160,9 @@ const Navbar: React.FC = () => {
 const Hero: React.FC = () => {
   // --- 1. COUNTDOWN LOGIC ---
   const calculateTimeLeft = () => {
-    // Target: March 7, 2026 8:00 AM (EST assumed based on Ottawa location)
-    const difference = +new Date("2026-03-07T08:00:00") - +new Date();
+    // Target: March 7, 2026 8:00 AM EST (Ottawa is in Eastern Time)
+    // Using -05:00 for EST (Standard Time in March)
+    const difference = +new Date("2026-03-07T08:00:00-05:00") - +new Date();
     
     if (difference > 0) {
       return {
