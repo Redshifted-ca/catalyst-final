@@ -286,7 +286,7 @@ const Hero: React.FC = () => {
 
         {/* Description Text */}
         <p className="max-w-xl text-lg md:text-xl text-slate-300 mb-8 leading-relaxed drop-shadow-md font-light pl-2">
-          Join us at the event horizon. Start your journey here, or build something never seen before. <br/><span className="text-white font-medium">Gravity is no limit.</span>
+          Join us at Canada's first hardware hackathon for highschoolers! Start your hardware journey here, or build something you've never tried before. <br/><span className="text-white font-medium">This is a beginner friendly-event.</span>
         </p>
 
         {/* --- 3. COUNTDOWN TIMER --- */}
