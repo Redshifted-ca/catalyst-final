@@ -64,6 +64,7 @@ For epic, primarily self-guided deep exploration into hardware. Take on the univ
 ### Silver Sponsors
 - **CIRA**
 - **Chessmates Ottawa**
+- **Eleven Labs**
 
 ### Community Partners
 - **.xyz**

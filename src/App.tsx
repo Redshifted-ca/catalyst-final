@@ -1014,7 +1014,7 @@ const Sponsors: React.FC = () => {
               {[
                 { name: "CIRA", logo: "/sponsors/sponsor_cira.png", url: "https://www.cira.ca/en/canadian-shield/" },
                 { name: "Chessmates Ottawa", logo: "/sponsors/sponsor_chessmatesottawa.jpg", url: "https://www.chessmatesottawa.ca/" },
-                { name: "Your logo here", logo: null },
+                { name: "Eleven Labs", logo: "/sponsors/sponsor_elevenlabs.png", url: "https://elevenlabs.io/" },
               ].map((sponsor, i) => (
                 <div
                   key={i}
@@ -1041,6 +1041,10 @@ const Sponsors: React.FC = () => {
                               <div className="relative p-6 rounded-xl border-[1px] border-white bg-white">
                                 <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain group-hover:scale-110 transition-transform" />
                               </div>
+                            ) : sponsor.name === "Eleven Labs" ? (
+                              <div className="relative p-8">
+                                <img src={sponsor.logo} alt={sponsor.name} className="max-h-16 w-auto object-contain group-hover:scale-110 transition-transform" />
+                              </div>
                             ) : (
                               <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain group-hover:scale-110 transition-transform" />
                             )}
@@ -1049,6 +1053,10 @@ const Sponsors: React.FC = () => {
                           sponsor.name === "Chessmates Ottawa" ? (
                             <div className="relative p-6 rounded-xl border-[1px] border-white bg-white">
                               <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
+                            </div>
+                          ) : sponsor.name === "Eleven Labs" ? (
+                            <div className="relative p-8">
+                              <img src={sponsor.logo} alt={sponsor.name} className="max-h-16 w-auto object-contain" />
                             </div>
                           ) : (
                             <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
