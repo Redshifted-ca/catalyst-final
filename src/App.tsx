@@ -162,7 +162,7 @@ const Hero: React.FC = () => {
   const calculateTimeLeft = () => {
     // Target: March 7, 2026 8:00 AM EST (Ottawa is in Eastern Time)
     // Using -05:00 for EST (Standard Time in March)
-    const difference = +new Date("2026-03-07T08:00:00-05:00") - +new Date();
+    const difference = +new Date("2026-03-07T08:00:00-05:00") - +new Date(); //March 7th is one day before EDT ends
     
     if (difference > 0) {
       return {
@@ -962,7 +962,7 @@ const Sponsors: React.FC = () => {
             <div className="flex flex-wrap justify-center gap-6">
               {[
                 { name: "YRI Fellowship", logo: "/sponsors/sponsor_yri.webp", url: "https://yriscience.com/" }, // Removed specific path to avoid 404, replace null with path if you have it
-                { name: "Your logo here", logo: null, url: null },
+                { name: "UOttawa Engineering Outreach", logo: "/sponsors/eventpartner_uOttawa.png", url: "https://www.uottawa.ca/faculty-engineering/outreach" },
                 { name: "Your logo here", logo: null, url: null },
               ].map((sponsor, i) => (
                 <div
@@ -971,7 +971,7 @@ const Sponsors: React.FC = () => {
                 >
                   {sponsor.url ? (
                     <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
-                      <div className="aspect-video relative w-full flex items-center justify-center p-6">
+                      <div className="aspect-video relative w-full flex flex-col items-center justify-center p-6 gap-3">
                         {sponsor.logo ? (
                           <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
                         ) : (
@@ -979,10 +979,15 @@ const Sponsors: React.FC = () => {
                             {sponsor.name}
                           </span>
                         )}
+                        {sponsor.name === "UOttawa Engineering Outreach" && (
+                          <p className="text-slate-400 text-xs text-center mt-1">
+                            Event in collaboration with UOttawa Engineering Outreach
+                          </p>
+                        )}
                       </div>
                     </a>
                   ) : (
-                    <div className="aspect-video relative w-full flex items-center justify-center p-6">
+                    <div className="aspect-video relative w-full flex flex-col items-center justify-center p-6 gap-3">
                       {sponsor.logo ? (
                         <img src={sponsor.logo} alt={sponsor.name} className="max-h-24 w-auto object-contain" />
                       ) : (
