@@ -1273,6 +1273,11 @@ const Footer: React.FC = () => {
                   FAQ
                 </a>
               </li>
+              <li>
+                <a href="https://redshifted.ca/privacy-and-terms" className="text-background/80 hover:text-primary transition-colors">
+                  Privacy & Terms
+                </a>
+              </li>
             </ul>
           </div>
 
