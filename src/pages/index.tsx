@@ -1274,7 +1274,7 @@ const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="/privacy-and-terms" className="text-background/80 hover:text-primary transition-colors">
+                <a href="https://redshifted.ca/privacy-and-terms" className="text-background/80 hover:text-primary transition-colors">
                   Privacy & Terms
                 </a>
               </li>
