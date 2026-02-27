@@ -369,7 +369,7 @@ const Hero: React.FC = () => {
             <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,165,0,0.5)] cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-amber-500 to-red-500 opacity-20 group-hover:opacity-50 transition-opacity"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
-                Start Mission <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+                Register Here! <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
               </span>
             </button>
           </a>
@@ -1548,7 +1548,7 @@ const WhiteHoleHero: React.FC = () => {
               <button className="group relative w-full sm:w-auto px-8 py-4 bg-white text-slate-950 font-bold text-lg rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,255,0.5)] cursor-pointer">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-200 to-white opacity-40 group-hover:opacity-60 transition-opacity"></div>
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  Begin Creation <Zap className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform fill-black" />
+                  Register Here! <Zap className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform fill-black" />
                 </span>
               </button>
             </a>
