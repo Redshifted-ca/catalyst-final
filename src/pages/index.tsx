@@ -677,6 +677,7 @@ interface DaySchedule {
 interface FAQItem {
   question: string;
   answer: string;
+  link?: string;
 }
 
 // --- Components ---
@@ -734,6 +735,12 @@ const LogisticsSection: React.FC = () => {
     {
       question: "I'm not sure if my parent/guardian will allow me to attend. What should I tell them?",
       answer: "No worries! Please email andy.han@redshifted.ca and we can schedule a short call to answer any questions they have and provide more information about the event."
+    },
+    {
+      question: "I'm celebrating Ramadan during the event. Will there be accommodations for fasting students?",
+      answer: "Yes! We will have a private, quiet space for students who are fasting to rest and break their fast. Visit https://catalyst.redshifted.ca/ramadan or CLICK ON THIS BOX for more details and to let us know if you'll be fasting during the event.",
+      link: "/ramadan",
+
     }
   ];
 
@@ -839,9 +846,11 @@ const LogisticsSection: React.FC = () => {
                     </div>
                     
                     <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <a href={item.link}>
                       <p className="px-6 pb-6 text-slate-400 leading-relaxed">
                         {item.answer}
                       </p>
+                      </a>
                     </div>
                   </div>
                 );
