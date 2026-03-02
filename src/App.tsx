@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
 import Index from "./pages/index";
 import PrivacyAndTerms from "./pages/privacy";
+import Ramadan from "./pages/ramadan";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/privacy-and-terms" element={<PrivacyAndTerms />} />
+          <Route path="/ramadan" element={<Ramadan />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Index />} />
         </Routes>

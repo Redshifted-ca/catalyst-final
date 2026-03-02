@@ -9,6 +9,7 @@ interface FAQ {
   id: string;
   question: string;
   answer: string;
+  link?: string;
 }
 
 interface FAQSectionProps {
@@ -32,9 +33,11 @@ const FAQSection = ({ faqs }: FAQSectionProps) => {
               <AccordionTrigger className="text-left font-semibold text-lg hover:text-primary">
                 {faq.question}
               </AccordionTrigger>
+              <a href={faq.link}>
               <AccordionContent className="text-muted-foreground">
                 {faq.answer}
               </AccordionContent>
+              </a>
             </AccordionItem>
           ))}
         </Accordion>
